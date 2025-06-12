@@ -410,13 +410,29 @@ err:
 	return false;
 }
 
+static inline bool parse_string(char **device_value, const char *name, const char *value) {
+    size_t len = strlen(value);
+	if (!len) {
+		fprintf(stderr, "Unable to parse empty string for: %s\n", name);
+		return false;
+	}
+
+    if( len >= MAX_AWG_JUNK_LEN) {
+		fprintf(stderr, "Unable to process hex string longer than: %d\n", MAX_AWG_JUNK_LEN);
+		return false;
+    }
+    *device_value = strdup(value);
+
+    return true;
+}
+
 static inline bool parse_uint16(uint16_t *device_value, const char *name, const char *value) {
 
 	if (!strlen(value)) {
 		fprintf(stderr, "Unable to parse empty string\n");
 		return false;
 	}
-	
+
 	char *end;
 	uint32_t ret;
 	ret = strtoul(value, &end, 10);
@@ -558,6 +574,42 @@ static bool process_line(struct config_ctx *ctx, const char *line)
 			ret = parse_uint32(&ctx->device->transport_packet_magic_header, "H4", value);
 			if (ret)
 				ctx->device->flags |= WGDEVICE_HAS_H4;
+		} else if (key_match("I1")) {
+			ret = parse_string(&ctx->device->i1, "I1", value);
+			if (ret)
+				ctx->device->flags |= WGDEVICE_HAS_I1;
+		} else if (key_match("I2")) {
+			ret = parse_string(&ctx->device->i2, "I2", value);
+			if (ret)
+				ctx->device->flags |= WGDEVICE_HAS_I2;
+		} else if (key_match("I3")) {
+			ret = parse_string(&ctx->device->i3, "I3", value);
+			if (ret)
+				ctx->device->flags |= WGDEVICE_HAS_I3;
+		} else if (key_match("I4")) {
+			ret = parse_string(&ctx->device->i4, "I4", value);
+			if (ret)
+				ctx->device->flags |= WGDEVICE_HAS_I4;
+		} else if (key_match("I5")) {
+			ret = parse_string(&ctx->device->i5, "I5", value);
+			if (ret)
+				ctx->device->flags |= WGDEVICE_HAS_I5;
+		} else if (key_match("J1")) {
+			ret = parse_string(&ctx->device->j1, "J1", value);
+			if (ret)
+				ctx->device->flags |= WGDEVICE_HAS_J1;
+		} else if (key_match("J2")) {
+			ret = parse_string(&ctx->device->j2, "J2", value);
+			if (ret)
+				ctx->device->flags |= WGDEVICE_HAS_J2;
+		} else if (key_match("J3")) {
+			ret = parse_string(&ctx->device->j3, "J3", value);
+			if (ret)
+				ctx->device->flags |= WGDEVICE_HAS_J3;
+		} else if (key_match("ITIME")) {
+			ret = parse_string(&ctx->device->itime, "Itime", value);
+			if (ret)
+				ctx->device->flags |= WGDEVICE_HAS_ITIME;
 		} else
 			goto error;
 	} else if (ctx->is_peer_section) {
@@ -703,66 +755,129 @@ struct wgdevice *config_read_cmd(const char *argv[], int argc)
 		} else if (!strcmp(argv[0], "jc") && argc >= 2 && !peer) {
 			if (!parse_uint16(&device->junk_packet_count, "jc", argv[1]))
 				goto error;
-			
+
 			device->flags |= WGDEVICE_HAS_JC;
 			argv += 2;
 			argc -= 2;
 		} else if (!strcmp(argv[0], "jmin") && argc >= 2 && !peer) {
 			if (!parse_uint16(&device->junk_packet_min_size, "jmin", argv[1]))
 				goto error;
-			
+
 			device->flags |= WGDEVICE_HAS_JMIN;
 			argv += 2;
 			argc -= 2;
 		} else if (!strcmp(argv[0], "jmax") && argc >= 2 && !peer) {
 			if (!parse_uint16(&device->junk_packet_max_size, "jmax", argv[1]))
 				goto error;
-			
+
 			device->flags |= WGDEVICE_HAS_JMAX;
 			argv += 2;
 			argc -= 2;
 		} else if (!strcmp(argv[0], "s1") && argc >= 2 && !peer) {
 			if (!parse_uint16(&device->init_packet_junk_size, "s1", argv[1]))
 				goto error;
-			
+
 			device->flags |= WGDEVICE_HAS_S1;
 			argv += 2;
 			argc -= 2;
 		} else if (!strcmp(argv[0], "s2") && argc >= 2 && !peer) {
 			if (!parse_uint16(&device->response_packet_junk_size, "s2", argv[1]))
 				goto error;
-			
+
 			device->flags |= WGDEVICE_HAS_S2;
 			argv += 2;
 			argc -= 2;
 		} else if (!strcmp(argv[0], "h1") && argc >= 2 && !peer) {
 			if (!parse_uint32(&device->init_packet_magic_header, "h1", argv[1]))
 				goto error;
-			
+
 			device->flags |= WGDEVICE_HAS_H1;
 			argv += 2;
 			argc -= 2;
 		} else if (!strcmp(argv[0], "h2") && argc >= 2 && !peer) {
 			if (!parse_uint32(&device->response_packet_magic_header, "h2", argv[1]))
 				goto error;
-			
+
 			device->flags |= WGDEVICE_HAS_H2;
 			argv += 2;
 			argc -= 2;
 		} else if (!strcmp(argv[0], "h3") && argc >= 2 && !peer) {
 			if (!parse_uint32(&device->underload_packet_magic_header, "h3", argv[1]))
 				goto error;
-			
+
 			device->flags |= WGDEVICE_HAS_H3;
 			argv += 2;
 			argc -= 2;
 		} else if (!strcmp(argv[0], "h4") && argc >= 2 && !peer) {
 			if (!parse_uint32(&device->transport_packet_magic_header, "h4", argv[1]))
 				goto error;
-			
+
 			device->flags |= WGDEVICE_HAS_H4;
 			argv += 2;
 			argc -= 2;
+		} else if (!strcmp(argv[0], "i1") && argc >= 2 && !peer) {
+			if (!parse_string(&device->i1, "i1", argv[1]))
+				goto error;
+
+			device->flags |= WGDEVICE_HAS_I1;
+			argv += 2;
+			argc -= 2;
+		} else if (!strcmp(argv[0], "i2") && argc >= 2 && !peer) {
+			if (!parse_string(&device->i2, "i2", argv[1]))
+				goto error;
+
+			device->flags |= WGDEVICE_HAS_I2;
+			argv += 2;
+			argc -=2;
+		} else if (!strcmp(argv[0], "i3") && argc >= 2 && !peer) {
+			if (!parse_string(&device->i3, "i3", argv[1]))
+				goto error;
+
+			device->flags |= WGDEVICE_HAS_I3;
+			argv += 2;
+			argc -=2;
+		} else if (!strcmp(argv[0], "i4") && argc >= 2 && !peer) {
+			if (!parse_string(&device->i4, "i4", argv[1]))
+				goto error;
+
+			device->flags |= WGDEVICE_HAS_I4;
+			argv += 2;
+			argc -=2;
+		} else if (!strcmp(argv[0], "i5") && argc >= 2 && !peer) {
+			if (!parse_string(&device->i5, "i5", argv[1]))
+				goto error;
+
+			device->flags |= WGDEVICE_HAS_I5;
+			argv += 2;
+			argc -=2;
+		} else if (!strcmp(argv[0], "j1") && argc >= 2 && !peer) {
+			if (!parse_string(&device->j1, "j1", argv[1]))
+				goto error;
+
+			device->flags |= WGDEVICE_HAS_J1;
+			argv += 2;
+			argc -=2;
+		} else if (!strcmp(argv[0], "j2") && argc >= 2 && !peer) {
+			if (!parse_string(&device->j2, "j2", argv[1]))
+				goto error;
+
+			device->flags |= WGDEVICE_HAS_J2;
+			argv += 2;
+			argc -=2;
+		} else if (!strcmp(argv[0], "j3") && argc >= 2 && !peer) {
+			if (!parse_string(&device->j3, "j3", argv[1]))
+				goto error;
+
+			device->flags |= WGDEVICE_HAS_J3;
+			argv += 2;
+			argc -=2;
+		} else if (!strcmp(argv[0], "itime") && argc >= 2 && !peer) {
+			if (!parse_string(&device->itime, "itime", argv[1]))
+				goto error;
+
+			device->flags |= WGDEVICE_HAS_ITIME;
+			argv += 2;
+			argc -=2;
 		} else if (!strcmp(argv[0], "peer") && argc >= 2) {
 			struct wgpeer *new_peer = calloc(1, sizeof(*new_peer));
 
