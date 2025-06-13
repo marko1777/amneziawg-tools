@@ -6,6 +6,7 @@
 #include "containers.h"
 #include "encoding.h"
 #include "netlink.h"
+#include "uapi/linux/linux/wireguard.h"
 #include <errno.h>
 #include <linux/genetlink.h>
 #include <linux/if_link.h>
@@ -191,6 +192,25 @@ again:
             mnl_attr_put_u32(nlh, WGDEVICE_A_H3, dev->underload_packet_magic_header);
         if (dev->flags & WGDEVICE_HAS_H4)
             mnl_attr_put_u32(nlh, WGDEVICE_A_H4, dev->transport_packet_magic_header);
+        if (dev->flags & WGDEVICE_HAS_I1)
+            mnl_attr_put_strz(nlh, WGDEVICE_A_I1, dev->i1);
+        if (dev->flags & WGDEVICE_HAS_I2)
+            mnl_attr_put_strz(nlh, WGDEVICE_A_I2, dev->i2);
+        if (dev->flags & WGDEVICE_HAS_I3)
+            mnl_attr_put_strz(nlh, WGDEVICE_A_I3, dev->i3);
+        if (dev->flags & WGDEVICE_HAS_I4)
+            mnl_attr_put_strz(nlh, WGDEVICE_A_I4, dev->i4);
+        if (dev->flags & WGDEVICE_HAS_I5)
+            mnl_attr_put_strz(nlh, WGDEVICE_A_I5, dev->i5);
+        if (dev->flags & WGDEVICE_HAS_J1)
+            mnl_attr_put_strz(nlh, WGDEVICE_A_J1, dev->j1);
+        if (dev->flags & WGDEVICE_HAS_J2)
+            mnl_attr_put_strz(nlh, WGDEVICE_A_J2, dev->j2);
+        if (dev->flags & WGDEVICE_HAS_J3)
+            mnl_attr_put_strz(nlh, WGDEVICE_A_J3, dev->j3);
+        if (dev->flags & WGDEVICE_HAS_ITIME)
+            mnl_attr_put_u32(nlh, WGDEVICE_A_ITIME, dev->itime);
+
         if (dev->flags & WGDEVICE_HAS_FWMARK)
             mnl_attr_put_u32(nlh, WGDEVICE_A_FWMARK, dev->fwmark);
         if (dev->flags & WGDEVICE_REPLACE_PEERS)
@@ -268,6 +288,13 @@ again:
                 mnl_attr_put_check(
                     nlh, SOCKET_BUFFER_SIZE, WGPEER_A_ADVANCED_SECURITY, 0, NULL);
             flags |= WGPEER_F_HAS_ADVANCED_SECURITY;
+        }
+        if (peer->flags & WGPEER_HAS_SPECIAL_HANDSHAKE)
+        {
+            if (peer->special_handshake)
+                mnl_attr_put_check(
+                    nlh, SOCKET_BUFFER_SIZE, WGPEER_A_SPECIAL_HANDSHAKE, 0, NULL);
+            flags |= WGPEER_F_HAS_SPECIAL_HANDSHAKE;
         }
         if (flags)
         {
@@ -489,6 +516,13 @@ static int parse_peer(const struct nlattr* attr, void* data)
                 peer->flags |= WGPEER_HAS_ADVANCED_SECURITY;
                 peer->advanced_security = false;
             }
+            else if (
+                flags & WGPEER_F_HAS_SPECIAL_HANDSHAKE &&
+                !(peer->flags & WGPEER_HAS_SPECIAL_HANDSHAKE))
+            {
+                peer->flags |= WGPEER_HAS_SPECIAL_HANDSHAKE;
+                peer->special_handshake = false;
+            }
         }
         break;
     case WGPEER_A_ADVANCED_SECURITY:
@@ -499,6 +533,17 @@ static int parse_peer(const struct nlattr* attr, void* data)
             if (!(peer->flags & WGPEER_HAS_ADVANCED_SECURITY))
             {
                 peer->flags |= WGPEER_HAS_ADVANCED_SECURITY;
+            }
+        }
+        break;
+    case WGPEER_A_SPECIAL_HANDSHAKE:
+        if (!mnl_attr_validate(attr, MNL_TYPE_FLAG))
+        {
+            peer->special_handshake = true;
+
+            if (!(peer->flags & WGPEER_HAS_SPECIAL_HANDSHAKE))
+            {
+                peer->flags |= WGPEER_HAS_SPECIAL_HANDSHAKE;
             }
         }
         break;

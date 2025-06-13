@@ -251,7 +251,7 @@ static int kernel_get_device(struct wgdevice** device, const char* ifname)
     if (nvlist_exists_binary(nvl_device, "itime"))
     {
         number = nvlist_get_number(nvl_device, "itime");
-        if (number <= INT32_MAX)
+        if (number <= UINT32_MAX)
         {
             dev->itime = number;
             dev->flags |= WGDEVICE_HAS_ITIME;

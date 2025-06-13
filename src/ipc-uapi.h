@@ -89,11 +89,18 @@ static int userspace_set_device(struct wgdevice* dev)
     if (dev->flags & WGDEVICE_HAS_ITIME)
         fprintf(f, "itime=%u\n", dev->itime);
 
+    printf("i1: %s\n", dev->i1);
+
     for_each_wgpeer(dev, peer)
     {
         key_to_hex(hex, peer->public_key);
         fprintf(f, "public_key=%s\n", hex);
         if (peer->flags & WGPEER_HAS_ADVANCED_SECURITY)
+        {
+            ret = -EINVAL;
+            goto out;
+        }
+        if (peer->flags & WGPEER_HAS_SPECIAL_HANDSHAKE)
         {
             ret = -EINVAL;
             goto out;

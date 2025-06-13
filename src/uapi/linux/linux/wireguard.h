@@ -114,6 +114,9 @@
  *            WGPEER_A_ADVANCED_SECURITY: flag indicating that advanced security
  *                                       techniques provided by AmneziaWG should
  *                                       be used.
+ *            WGPEER_A_SPECIAL_HANDSHAKE: flag indicating that special handshake
+ *                                       techniques provided by AmneziaWG should
+ *                                       be used.
  *        0: NLA_NESTED
  *            ...
  *        ...
@@ -145,6 +148,9 @@
  *        WGPEER_A_PUBLIC_KEY: NLA_EXACT_LEN, len WG_KEY_LEN
  *        WGPEER_A_ENDPOINT: NLA_MIN_LEN(struct sockaddr), struct sockaddr_in or struct sockaddr_in6
  *        WGPEER_A_ADVANCED_SECURITY: flag indicating that advanced security
+ *                                    techniques provided by AmneziaWG should
+ *                                    be used.
+ *        WGPEER_A_SPECIAL_HANDSHAKE: flag indicating that special handshake
  *                                    techniques provided by AmneziaWG should
  *                                    be used.
  *
@@ -210,6 +216,7 @@ enum wgpeer_flag {
 	WGPEER_F_REPLACE_ALLOWEDIPS = 1U << 1,
 	WGPEER_F_UPDATE_ONLY = 1U << 2,
 	WGPEER_F_HAS_ADVANCED_SECURITY = 1U << 3,
+	WGPEER_F_HAS_SPECIAL_HANDSHAKE = 1U << 4,
 	__WGPEER_F_ALL = WGPEER_F_REMOVE_ME | WGPEER_F_REPLACE_ALLOWEDIPS |
 			 WGPEER_F_UPDATE_ONLY
 };
@@ -226,6 +233,7 @@ enum wgpeer_attribute {
 	WGPEER_A_ALLOWEDIPS,
 	WGPEER_A_PROTOCOL_VERSION,
 	WGPEER_A_ADVANCED_SECURITY,
+	WGPEER_A_SPECIAL_HANDSHAKE,
 	__WGPEER_A_LAST
 };
 #define WGPEER_A_MAX (__WGPEER_A_LAST - 1)

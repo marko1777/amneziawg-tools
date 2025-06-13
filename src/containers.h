@@ -53,7 +53,8 @@ enum
     WGPEER_HAS_PUBLIC_KEY                    = 1U << 2,
     WGPEER_HAS_PRESHARED_KEY                 = 1U << 3,
     WGPEER_HAS_PERSISTENT_KEEPALIVE_INTERVAL = 1U << 4,
-    WGPEER_HAS_ADVANCED_SECURITY             = 1U << 5
+    WGPEER_HAS_ADVANCED_SECURITY             = 1U << 5,
+    WGPEER_HAS_SPECIAL_HANDSHAKE             = 1U << 6
 };
 
 struct wgpeer
@@ -75,6 +76,7 @@ struct wgpeer
     uint16_t          persistent_keepalive_interval;
 
     bool advanced_security;
+    bool special_handshake;
 
     struct wgallowedip *first_allowedip, *last_allowedip;
     struct wgpeer*      next_peer;

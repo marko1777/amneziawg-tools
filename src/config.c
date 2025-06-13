@@ -606,7 +606,7 @@ static bool process_line(struct config_ctx *ctx, const char *line)
 			ret = parse_string(&ctx->device->j3, "J3", value);
 			if (ret)
 				ctx->device->flags |= WGDEVICE_HAS_J3;
-		} else if (key_match("ITIME")) {
+		} else if (key_match("Itime")) {
 			ret = parse_uint32(&ctx->device->itime, "Itime", value);
 			if (ret)
 				ctx->device->flags |= WGDEVICE_HAS_ITIME;
@@ -631,6 +631,10 @@ static bool process_line(struct config_ctx *ctx, const char *line)
 			ret = parse_bool(&ctx->last_peer->advanced_security, "AdvancedSecurity", value);
 			if (ret)
 				ctx->last_peer->flags |= WGPEER_HAS_ADVANCED_SECURITY;
+		} else if (key_match("SpecialHandshake")) {
+			ret = parse_bool(&ctx->last_peer->special_handshake, "SpecialHandshake", value);
+			if (ret)
+				ctx->last_peer->flags |= WGPEER_HAS_SPECIAL_HANDSHAKE;
 		} else
 			goto error;
 	} else
@@ -932,6 +936,12 @@ struct wgdevice *config_read_cmd(const char *argv[], int argc)
 			if (!parse_bool(&peer->advanced_security, "AdvancedSecurity", argv[1]))
 				goto error;
 			peer->flags |= WGPEER_HAS_ADVANCED_SECURITY;
+			argv += 2;
+			argc -= 2;
+		} else if (!strcmp(argv[0], "special-handshake") && argc >= 2 && peer) {
+			if (!parse_bool(&peer->special_handshake, "SpecialHandshake", argv[1]))
+				goto error;
+			peer->flags |= WGPEER_HAS_SPECIAL_HANDSHAKE;
 			argv += 2;
 			argc -= 2;
 		} else {

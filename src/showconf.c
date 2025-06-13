@@ -94,6 +94,9 @@ int showconf_main(int argc, const char *argv[])
 		if (peer->flags & WGPEER_HAS_ADVANCED_SECURITY) {
 			printf("AdvancedSecurity = %s\n", peer->advanced_security ? "on" : "off");
 		}
+		if (peer->flags & WGPEER_HAS_SPECIAL_HANDSHAKE) {
+			printf("SpecialHandshake = %s\n", peer->special_handshake ? "on" : "off");
+		}
 		if (peer->first_allowedip)
 			printf("AllowedIPs = ");
 		for_each_wgallowedip(peer, allowedip) {
