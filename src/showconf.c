@@ -64,7 +64,6 @@ int showconf_main(int argc, const char *argv[])
 		printf("H3 = %u\n", device->underload_packet_magic_header);
 	if (device->flags & WGDEVICE_HAS_H4)
 		printf("H4 = %u\n", device->transport_packet_magic_header);
-
 	if (device->flags & WGDEVICE_HAS_I1)
 		printf("I1 = %s\n", device->i1);
 	if (device->flags & WGDEVICE_HAS_I2)
@@ -82,7 +81,7 @@ int showconf_main(int argc, const char *argv[])
 	if (device->flags & WGDEVICE_HAS_J3)
 		printf("J3 = %s\n", device->j3);
 	if (device->flags & WGDEVICE_HAS_ITIME)
-		printf("Itime = %s\n", device->itime);
+		printf("Itime = %d\n", device->itime);
 
 	printf("\n");
 	for_each_wgpeer(device, peer) {

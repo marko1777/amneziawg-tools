@@ -1278,6 +1278,24 @@ static void parse_options(char **iface, char **config, unsigned int *mtu, char *
 				is_asecurity_on = true;
 			} else if (!strncasecmp(clean, "H4=", 3) && j > 4) {
 				is_asecurity_on = true;
+			} else if (!strncasecmp(clean, "I1", 3) && j > 4) {
+				is_special_handshake_on = true;
+			} else if (!strncasecmp(clean, "I2", 3) && j > 4) {
+				is_special_handshake_on = true;
+			} else if (!strncasecmp(clean, "I3", 3) && j > 4) {
+				is_special_handshake_on = true;
+			} else if (!strncasecmp(clean, "I4", 3) && j > 4) {
+				is_special_handshake_on = true;
+			} else if (!strncasecmp(clean, "I5", 3) && j > 4) {
+				is_special_handshake_on = true;
+			} else if (!strncasecmp(clean, "J1", 3) && j > 4) {
+				is_special_handshake_on = true;
+			} else if (!strncasecmp(clean, "J2", 3) && j > 4) {
+				is_special_handshake_on = true;
+			} else if (!strncasecmp(clean, "J3", 3) && j > 4) {
+				is_special_handshake_on = true;
+			} else if (!strncasecmp(clean, "Itime", 3) && j > 4) {
+				is_special_handshake_on = true;
 			}
 		}
 		*config = concat_and_free(*config, "", line);

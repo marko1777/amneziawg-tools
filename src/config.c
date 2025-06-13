@@ -607,7 +607,7 @@ static bool process_line(struct config_ctx *ctx, const char *line)
 			if (ret)
 				ctx->device->flags |= WGDEVICE_HAS_J3;
 		} else if (key_match("ITIME")) {
-			ret = parse_string(&ctx->device->itime, "Itime", value);
+			ret = parse_uint32(&ctx->device->itime, "Itime", value);
 			if (ret)
 				ctx->device->flags |= WGDEVICE_HAS_ITIME;
 		} else
@@ -872,7 +872,7 @@ struct wgdevice *config_read_cmd(const char *argv[], int argc)
 			argv += 2;
 			argc -=2;
 		} else if (!strcmp(argv[0], "itime") && argc >= 2 && !peer) {
-			if (!parse_string(&device->itime, "itime", argv[1]))
+			if (!parse_uint32(&device->itime, "itime", argv[1]))
 				goto error;
 
 			device->flags |= WGDEVICE_HAS_ITIME;

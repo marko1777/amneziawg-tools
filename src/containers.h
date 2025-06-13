@@ -139,7 +139,7 @@ struct wgdevice
     char*    j1;
     char*    j2;
     char*    j3;
-    char*    itime;
+    uint32_t itime;
 };
 
 #define for_each_wgpeer(__dev, __peer)                                                   \
