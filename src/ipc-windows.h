@@ -640,57 +640,57 @@ static int kernel_set_device(struct wgdevice* dev)
     }
     if (dev->flags & WG_DEVICE_HAS_I1)
     {
-        const size_t i1_size = strlen(dev->i1);
-        wg_iface->I1         = (UCHAR*)malloc(i1_size + 1);
+        const size_t i1_size = strlen(dev->i1) + 1;
+        wg_iface->I1         = (UCHAR*)malloc(i1_size);
         memcpy(wg_iface->I1, dev->i1, i1_size);
         dev->flags |= WG_IOCTL_INTERFACE_I1;
     }
     if (dev->flags & WG_DEVICE_HAS_I2)
     {
-        const size_t i2_size = strlen(dev->i2);
-        wg_iface->I2         = (UCHAR*)malloc(i2_size + 1);
+        const size_t i2_size = strlen(dev->i2) + 1;
+        wg_iface->I2         = (UCHAR*)malloc(i2_size);
         memcpy(wg_iface->I2, dev->i2, i2_size);
         dev->flags |= WG_IOCTL_INTERFACE_I2;
     }
     if (dev->flags & WG_DEVICE_HAS_I3)
     {
-        const size_t i3_size = strlen(dev->i3);
-        wg_iface->I3         = (UCHAR*)malloc(i3_size + 1);
+        const size_t i3_size = strlen(dev->i3) + 1;
+        wg_iface->I3         = (UCHAR*)malloc(i3_size);
         memcpy(wg_iface->I3, dev->i3, i3_size);
         dev->flags |= WG_IOCTL_INTERFACE_I3;
     }
     if (dev->flags & WG_DEVICE_HAS_I4)
     {
-        const size_t i4_size = strlen(dev->i4);
-        wg_iface->I4         = (UCHAR*)malloc(i4_size + 1);
+        const size_t i4_size = strlen(dev->i4) + 1;
+        wg_iface->I4         = (UCHAR*)malloc(i4_size);
         memcpy(wg_iface->I4, dev->i4, i4_size);
         dev->flags |= WG_IOCTL_INTERFACE_I4;
     }
     if (dev->flags & WG_DEVICE_HAS_I5)
     {
-        const size_t i5_size = strlen(dev->i5);
-        wg_iface->I5         = (UCHAR*)malloc(i5_size + 1);
+        const size_t i5_size = strlen(dev->i5) + 1;
+        wg_iface->I5         = (UCHAR*)malloc(i5_size);
         memcpy(wg_iface->I5, dev->i5, i5_size);
         dev->flags |= WG_IOCTL_INTERFACE_I5;
     }
     if (dev->flags & WG_DEVICE_HAS_J1)
     {
-        const size_t j1_size = strlen(dev->j1);
-        wg_iface->J1         = (UCHAR*)malloc(j1_size + 1);
+        const size_t j1_size = strlen(dev->j1) + 1;
+        wg_iface->J1         = (UCHAR*)malloc(j1_size);
         memcpy(wg_iface->J1, dev->j1, j1_size);
         dev->flags |= WG_IOCTL_INTERFACE_J1;
     }
     if (dev->flags & WG_DEVICE_HAS_J2)
     {
-        const size_t j2_size = strlen(dev->j2);
-        wg_iface->J2         = (UCHAR*)malloc(j2_size + 1);
+        const size_t j2_size = strlen(dev->j2) + 1;
+        wg_iface->J2         = (UCHAR*)malloc(j2_size);
         memcpy(wg_iface->J2, dev->j2, j2_size);
         dev->flags |= WG_IOCTL_INTERFACE_J2;
     }
     if (dev->flags & WG_DEVICE_HAS_J3)
     {
-        const size_t j3_size = strlen(dev->j3);
-        wg_iface->J3         = (UCHAR*)malloc(j3_size + 1);
+        const size_t j3_size = strlen(dev->j3) + 1;
+        wg_iface->J3         = (UCHAR*)malloc(j3_size);
         memcpy(wg_iface->J3, dev->j3, j3_size);
         dev->flags |= WG_IOCTL_INTERFACE_J3;
     }

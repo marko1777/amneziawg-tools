@@ -410,7 +410,7 @@ err:
 	return false;
 }
 
-static inline bool parse_string(char **device_value, const char *name, const char *value) {
+static inline bool parse_awg_string(char **device_value, const char *name, const char *value) {
     size_t len = strlen(value);
 	if (!len) {
 		fprintf(stderr, "Unable to parse empty string for: %s\n", name);
@@ -575,35 +575,35 @@ static bool process_line(struct config_ctx *ctx, const char *line)
 			if (ret)
 				ctx->device->flags |= WGDEVICE_HAS_H4;
 		} else if (key_match("I1")) {
-			ret = parse_string(&ctx->device->i1, "I1", value);
+			ret = parse_awg_string(&ctx->device->i1, "I1", value);
 			if (ret)
 				ctx->device->flags |= WGDEVICE_HAS_I1;
 		} else if (key_match("I2")) {
-			ret = parse_string(&ctx->device->i2, "I2", value);
+			ret = parse_awg_string(&ctx->device->i2, "I2", value);
 			if (ret)
 				ctx->device->flags |= WGDEVICE_HAS_I2;
 		} else if (key_match("I3")) {
-			ret = parse_string(&ctx->device->i3, "I3", value);
+			ret = parse_awg_string(&ctx->device->i3, "I3", value);
 			if (ret)
 				ctx->device->flags |= WGDEVICE_HAS_I3;
 		} else if (key_match("I4")) {
-			ret = parse_string(&ctx->device->i4, "I4", value);
+			ret = parse_awg_string(&ctx->device->i4, "I4", value);
 			if (ret)
 				ctx->device->flags |= WGDEVICE_HAS_I4;
 		} else if (key_match("I5")) {
-			ret = parse_string(&ctx->device->i5, "I5", value);
+			ret = parse_awg_string(&ctx->device->i5, "I5", value);
 			if (ret)
 				ctx->device->flags |= WGDEVICE_HAS_I5;
 		} else if (key_match("J1")) {
-			ret = parse_string(&ctx->device->j1, "J1", value);
+			ret = parse_awg_string(&ctx->device->j1, "J1", value);
 			if (ret)
 				ctx->device->flags |= WGDEVICE_HAS_J1;
 		} else if (key_match("J2")) {
-			ret = parse_string(&ctx->device->j2, "J2", value);
+			ret = parse_awg_string(&ctx->device->j2, "J2", value);
 			if (ret)
 				ctx->device->flags |= WGDEVICE_HAS_J2;
 		} else if (key_match("J3")) {
-			ret = parse_string(&ctx->device->j3, "J3", value);
+			ret = parse_awg_string(&ctx->device->j3, "J3", value);
 			if (ret)
 				ctx->device->flags |= WGDEVICE_HAS_J3;
 		} else if (key_match("Itime")) {
@@ -850,56 +850,56 @@ struct wgdevice *config_read_cmd(const char *argv[], int argc)
 			argv += 2;
 			argc -= 2;
 		} else if (!strcmp(argv[0], "i1") && argc >= 2 && !peer) {
-			if (!parse_string(&device->i1, "i1", argv[1]))
+			if (!parse_awg_string(&device->i1, "i1", argv[1]))
 				goto error;
 
 			device->flags |= WGDEVICE_HAS_I1;
 			argv += 2;
 			argc -= 2;
 		} else if (!strcmp(argv[0], "i2") && argc >= 2 && !peer) {
-			if (!parse_string(&device->i2, "i2", argv[1]))
+			if (!parse_awg_string(&device->i2, "i2", argv[1]))
 				goto error;
 
 			device->flags |= WGDEVICE_HAS_I2;
 			argv += 2;
 			argc -=2;
 		} else if (!strcmp(argv[0], "i3") && argc >= 2 && !peer) {
-			if (!parse_string(&device->i3, "i3", argv[1]))
+			if (!parse_awg_string(&device->i3, "i3", argv[1]))
 				goto error;
 
 			device->flags |= WGDEVICE_HAS_I3;
 			argv += 2;
 			argc -=2;
 		} else if (!strcmp(argv[0], "i4") && argc >= 2 && !peer) {
-			if (!parse_string(&device->i4, "i4", argv[1]))
+			if (!parse_awg_string(&device->i4, "i4", argv[1]))
 				goto error;
 
 			device->flags |= WGDEVICE_HAS_I4;
 			argv += 2;
 			argc -=2;
 		} else if (!strcmp(argv[0], "i5") && argc >= 2 && !peer) {
-			if (!parse_string(&device->i5, "i5", argv[1]))
+			if (!parse_awg_string(&device->i5, "i5", argv[1]))
 				goto error;
 
 			device->flags |= WGDEVICE_HAS_I5;
 			argv += 2;
 			argc -=2;
 		} else if (!strcmp(argv[0], "j1") && argc >= 2 && !peer) {
-			if (!parse_string(&device->j1, "j1", argv[1]))
+			if (!parse_awg_string(&device->j1, "j1", argv[1]))
 				goto error;
 
 			device->flags |= WGDEVICE_HAS_J1;
 			argv += 2;
 			argc -=2;
 		} else if (!strcmp(argv[0], "j2") && argc >= 2 && !peer) {
-			if (!parse_string(&device->j2, "j2", argv[1]))
+			if (!parse_awg_string(&device->j2, "j2", argv[1]))
 				goto error;
 
 			device->flags |= WGDEVICE_HAS_J2;
 			argv += 2;
 			argc -=2;
 		} else if (!strcmp(argv[0], "j3") && argc >= 2 && !peer) {
-			if (!parse_string(&device->j3, "j3", argv[1]))
+			if (!parse_awg_string(&device->j3, "j3", argv[1]))
 				goto error;
 
 			device->flags |= WGDEVICE_HAS_J3;
