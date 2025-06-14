@@ -157,55 +157,55 @@ static int kernel_get_device(struct wgdevice **device, const char *iface)
 
 	if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_I1)
 	{
-		wg_iface->i_i1 = strdup(dev->i1);
+		dev->i1 = strdup(wg_iface->i_i1);
 		wg_iface->i_flags |= WGDEVICE_HAS_I1;
 	}
 
 	if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_I2)
 	{
-		wg_iface->i_i2 = strdup(dev->i2);
+		dev->i2 = strdup(wg_iface->i_i2);
 		wg_iface->i_flags |= WGDEVICE_HAS_I2;
 	}
 
 	if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_I3)
 	{
-		wg_iface->i_i3 = strdup(dev->i3);
+		dev->i3 = strdup(wg_iface->i_i3);
 		wg_iface->i_flags |= WGDEVICE_HAS_I3;
 	}
 
 	if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_I4)
 	{
-		wg_iface->i_i4 = strdup(dev->i4);
+		dev->i4 = strdup(wg_iface->i_i4);
 		wg_iface->i_flags |= WGDEVICE_HAS_I4;
 	}
 
 	if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_I5)
 	{
-		wg_iface->i_i5 = strdup(dev->i5);
+		dev->i5 = strdup(wg_iface->i_i5);
 		wg_iface->i_flags |= WGDEVICE_HAS_I5;
 	}
 
 	if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_J1)
 	{
-		wg_iface->i_j1 = strdup(dev->j1);
+		dev->j1 = strdup(wg_iface->i_j1);
 		wg_iface->i_flags |= WGDEVICE_HAS_J1;
 	}
 
 	if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_J2)
 	{
-		wg_iface->i_j2 = strdup(dev->j2);
+		dev->j2 = strdup(wg_iface->i_j2);
 		wg_iface->i_flags |= WGDEVICE_HAS_J2;
 	}
 
 	if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_J3)
 	{
-		wg_iface->i_j3 = strdup(dev->j3);
+		dev->j3 = strdup(wg_iface->i_j3);
 		wg_iface->i_flags |= WGDEVICE_HAS_J3;
 	}
 
 	if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_ITIME)
 	{
-		wg_iface->i_itime = dev->itime;
+		dev->itime = wg_iface->i_itime ;
 		wg_iface->i_flags |= WGDEVICE_HAS_ITIME;
 	}
 

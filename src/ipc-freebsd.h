@@ -435,24 +435,24 @@ static int kernel_set_device(struct wgdevice *dev)
 		nvlist_add_number(nvl_device, "h3", dev->underload_packet_magic_header);
 	if (dev->flags & WGDEVICE_HAS_H4)
 		nvlist_add_number(nvl_device, "h4", dev->transport_packet_magic_header);
-    if (dev->flags & WGDEVICE_HAS_I1)
-        nvlist_add_binary(nvl_device, "i1", dev->i1, strlen(dev->i1) + 1);
-    if (dev->flags & WGDEVICE_HAS_I2)
-        nvlist_add_binary(nvl_device, "i2", dev->i2, strlen(dev->i2) + 1);
-    if (dev->flags & WGDEVICE_HAS_I3)
-        nvlist_add_binary(nvl_device, "i3", dev->i3, strlen(dev->i3) + 1);
-    if (dev->flags & WGDEVICE_HAS_I4)
-        nvlist_add_binary(nvl_device, "i4", dev->i4, strlen(dev->i4) + 1);
-    if (dev->flags & WGDEVICE_HAS_I5)
-        nvlist_add_binary(nvl_device, "i5", dev->i5, strlen(dev->i5) + 1);
-    if (dev->flags & WGDEVICE_HAS_J1)
-        nvlist_add_binary(nvl_device, "j1", dev->j1, strlen(dev->j1) + 1);
-    if (dev->flags & WGDEVICE_HAS_J2)
-        nvlist_add_binary(nvl_device, "j2", dev->j2, strlen(dev->j2) + 1);
-    if (dev->flags & WGDEVICE_HAS_J3)
-        nvlist_add_binary(nvl_device, "j3", dev->j3, strlen(dev->j3) + 1);
-    if (dev->flags & WGDEVICE_HAS_ITIME)
-        nvlist_add_number(nvl_device, "itime", dev->itime);
+	if (dev->flags & WGDEVICE_HAS_I1)
+		nvlist_add_binary(nvl_device, "i1", dev->i1, strlen(dev->i1) + 1);
+	if (dev->flags & WGDEVICE_HAS_I2)
+		nvlist_add_binary(nvl_device, "i2", dev->i2, strlen(dev->i2) + 1);
+	if (dev->flags & WGDEVICE_HAS_I3)
+		nvlist_add_binary(nvl_device, "i3", dev->i3, strlen(dev->i3) + 1);
+	if (dev->flags & WGDEVICE_HAS_I4)
+		nvlist_add_binary(nvl_device, "i4", dev->i4, strlen(dev->i4) + 1);
+	if (dev->flags & WGDEVICE_HAS_I5)
+		nvlist_add_binary(nvl_device, "i5", dev->i5, strlen(dev->i5) + 1);
+	if (dev->flags & WGDEVICE_HAS_J1)
+		nvlist_add_binary(nvl_device, "j1", dev->j1, strlen(dev->j1) + 1);
+	if (dev->flags & WGDEVICE_HAS_J2)
+		nvlist_add_binary(nvl_device, "j2", dev->j2, strlen(dev->j2) + 1);
+	if (dev->flags & WGDEVICE_HAS_J3)
+		nvlist_add_binary(nvl_device, "j3", dev->j3, strlen(dev->j3) + 1);
+	if (dev->flags & WGDEVICE_HAS_ITIME)
+		nvlist_add_number(nvl_device, "itime", dev->itime);
 	if (dev->flags & WGDEVICE_HAS_FWMARK)
 		nvlist_add_number(nvl_device, "user-cookie", dev->fwmark);
 	if (dev->flags & WGDEVICE_REPLACE_PEERS)

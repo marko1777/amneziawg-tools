@@ -81,7 +81,7 @@ int showconf_main(int argc, const char *argv[])
 	if (device->flags & WGDEVICE_HAS_J3)
 		printf("J3 = %s\n", device->j3);
 	if (device->flags & WGDEVICE_HAS_ITIME)
-		printf("Itime = %d\n", device->itime);
+		printf("Itime = %u\n", device->itime);
 
 	printf("\n");
 	for_each_wgpeer(device, peer) {
