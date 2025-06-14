@@ -42,6 +42,7 @@ static bool is_exiting = false;
 static bool binder_available = false;
 static unsigned int sdk_version;
 static bool is_asecurity_on = false;
+static bool is_special_handshake_on = false;
 
 static void *xmalloc(size_t size)
 {
@@ -633,7 +634,7 @@ static void auto_su(int argc, char *argv[])
 
 static void add_if(const char *iface)
 {
-	if (is_asecurity_on)
+	if (is_asecurity_on || is_special_handshake_on)
 		cmd("amneziawg-go %s", iface);
 	else
 		cmd("ip link add %s type amneziawg", iface);
