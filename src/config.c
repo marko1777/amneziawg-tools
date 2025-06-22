@@ -22,6 +22,13 @@
 
 #define COMMENT_CHAR '#'
 
+// Keys that should return empty string instead of NULL when not found
+static const char *awg_optional_keys[] = {
+	"I1", "I2", "I3", "I4", "I5",
+	"J1", "J2", "J3",
+	NULL
+};
+
 static const char *get_value(const char *line, const char *key)
 {
 	size_t linelen = strlen(line);
@@ -32,6 +39,7 @@ static const char *get_value(const char *line, const char *key)
 
 	if (strncasecmp(line, key, keylen))
 		return NULL;
+
 
 	return line + keylen;
 }
@@ -413,12 +421,12 @@ err:
 static inline bool parse_awg_string(char **device_value, const char *name, const char *value) {
     size_t len = strlen(value);
 	if (!len) {
-		fprintf(stderr, "Unable to parse empty string for: %s\n", name);
-		return false;
+		*device_value = "";
+		return true;
 	}
 
     if( len >= MAX_AWG_JUNK_LEN) {
-		fprintf(stderr, "Unable to process hex string longer than: %d\n", MAX_AWG_JUNK_LEN);
+		fprintf(stderr, "Unable to process string for: %s; longer than: %d\n", name, MAX_AWG_JUNK_LEN);
 		return false;
     }
     *device_value = strdup(value);
@@ -610,8 +618,16 @@ static bool process_line(struct config_ctx *ctx, const char *line)
 			ret = parse_uint32(&ctx->device->itime, "Itime", value);
 			if (ret)
 				ctx->device->flags |= WGDEVICE_HAS_ITIME;
-		} else
+		} else {
+			// Check if this is an AWG optional key
+			if (strlen(line) == 3) {
+				for (int i = 0; awg_optional_keys[i] != NULL; i++) {
+					if (!strncasecmp(line, awg_optional_keys[i], 2))
+						return true;
+				}
+			}
 			goto error;
+		}
 	} else if (ctx->is_peer_section) {
 		if (key_match("Endpoint"))
 			ret = parse_endpoint(&ctx->last_peer->endpoint.addr, value);
