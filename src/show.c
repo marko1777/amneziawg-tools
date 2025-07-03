@@ -230,6 +230,10 @@ static void pretty_print(struct wgdevice *device)
 		terminal_printf("  " TERMINAL_BOLD "s1" TERMINAL_RESET ": %u\n", device->init_packet_junk_size);
 	if (device->response_packet_junk_size)
 		terminal_printf("  " TERMINAL_BOLD "s2" TERMINAL_RESET ": %u\n", device->response_packet_junk_size);
+	if (device->cookie_reply_packet_junk_size)
+		terminal_printf("  " TERMINAL_BOLD "s3" TERMINAL_RESET ": %u\n", device->cookie_reply_packet_junk_size);
+	if (device->transport_packet_junk_size)
+		terminal_printf("  " TERMINAL_BOLD "s4" TERMINAL_RESET ": %u\n", device->transport_packet_junk_size);
 	if (device->init_packet_magic_header)
 		terminal_printf("  " TERMINAL_BOLD "h1" TERMINAL_RESET ": %u\n", device->init_packet_magic_header);
 	if (device->response_packet_magic_header)

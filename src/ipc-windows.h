@@ -283,6 +283,14 @@ static int kernel_get_device(struct wgdevice **device, const char *iface)
 		dev->response_packet_junk_size = wg_iface->ResponsePacketJunkSize;
 		dev->flags |= WGDEVICE_HAS_S2;
 	}
+	if (wg_iface->Flags & WG_IOCTL_INTERFACE_S3) {
+		dev->cookie_reply_packet_junk_size = wg_iface->CookieReplyPacketJunkSize;
+		dev->flags |= WGDEVICE_HAS_S3;
+	}
+	if (wg_iface->Flags & WG_IOCTL_INTERFACE_S4) {
+		dev->transport_packet_junk_size = wg_iface->TransportPacketJunkSize;
+		dev->flags |= WGDEVICE_HAS_S4;
+	}
 	if (wg_iface->Flags & WG_IOCTL_INTERFACE_H1) {
 		dev->init_packet_magic_header = wg_iface->InitPacketMagicHeader;
 		dev->flags |= WGDEVICE_HAS_H1;
@@ -506,6 +514,14 @@ static int kernel_set_device(struct wgdevice *dev)
 	if (dev->flags & WGDEVICE_HAS_S2) {
 		wg_iface->ResponsePacketJunkSize = dev->response_packet_junk_size;
 		wg_iface->Flags |= WG_IOCTL_INTERFACE_S2;
+	}
+	if (dev->flags & WGDEVICE_HAS_S3) {
+		wg_iface->CookieReplyPacketJunkSize = dev->cookie_reply_packet_junk_size;
+		wg_iface->Flags |= WG_IOCTL_INTERFACE_S3;
+	}
+	if (dev->flags & WGDEVICE_HAS_S4) {
+		wg_iface->TransportPacketJunkSize = dev->transport_packet_junk_size;
+		wg_iface->Flags |= WG_IOCTL_INTERFACE_S4;
 	}
 
 	if (dev->flags & WGDEVICE_HAS_H1) {

@@ -56,6 +56,10 @@ int showconf_main(int argc, const char *argv[])
 		printf("S1 = %u\n", device->init_packet_junk_size);
 	if (device->flags & WGDEVICE_HAS_S2)
 		printf("S2 = %u\n", device->response_packet_junk_size);
+	if (device->flags & WGDEVICE_HAS_S3)
+		printf("S3 = %u\n", device->cookie_reply_packet_junk_size);
+	if (device->flags & WGDEVICE_HAS_S4)
+		printf("S4 = %u\n", device->transport_packet_junk_size);
 	if (device->flags & WGDEVICE_HAS_H1)
 		printf("H1 = %u\n", device->init_packet_magic_header);
 	if (device->flags & WGDEVICE_HAS_H2)

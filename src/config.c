@@ -566,6 +566,14 @@ static bool process_line(struct config_ctx *ctx, const char *line)
 			ret = parse_uint16(&ctx->device->response_packet_junk_size, "S2", value);
 			if (ret)
 				ctx->device->flags |= WGDEVICE_HAS_S2;
+		} else if (key_match("S3")) {
+			ret = parse_uint16(&ctx->device->cookie_reply_packet_junk_size, "S3", value);
+			if (ret)
+				ctx->device->flags |= WGDEVICE_HAS_S3;
+		} else if (key_match("S4")) {
+			ret = parse_uint16(&ctx->device->transport_packet_junk_size, "S4", value);
+			if (ret)
+				ctx->device->flags |= WGDEVICE_HAS_S4;
 		} else if (key_match("H1")) {
 			ret = parse_uint32(&ctx->device->init_packet_magic_header, "H1", value);
 			if (ret)
@@ -835,6 +843,20 @@ struct wgdevice *config_read_cmd(const char *argv[], int argc)
 				goto error;
 
 			device->flags |= WGDEVICE_HAS_S2;
+			argv += 2;
+			argc -= 2;
+		} else if (!strcmp(argv[0], "s3") && argc >= 2 && !peer) {
+			if (!parse_uint16(&device->cookie_reply_packet_junk_size, "s3", argv[1]))
+				goto error;
+
+			device->flags |= WGDEVICE_HAS_S3;
+			argv += 2;
+			argc -= 2;
+		} else if (!strcmp(argv[0], "s4") && argc >= 2 && !peer) {
+			if (!parse_uint16(&device->transport_packet_junk_size, "s4", argv[1]))
+				goto error;
+
+			device->flags |= WGDEVICE_HAS_S4;
 			argv += 2;
 			argc -= 2;
 		} else if (!strcmp(argv[0], "h1") && argc >= 2 && !peer) {

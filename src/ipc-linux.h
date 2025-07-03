@@ -173,6 +173,10 @@ again:
 			mnl_attr_put_u16(nlh, WGDEVICE_A_S1, dev->init_packet_junk_size);
 		if (dev->flags & WGDEVICE_HAS_S2)
 			mnl_attr_put_u16(nlh, WGDEVICE_A_S2, dev->response_packet_junk_size);
+		if (dev->flags & WGDEVICE_HAS_S3)
+			mnl_attr_put_u16(nlh, WGDEVICE_A_S3, dev->cookie_reply_packet_junk_size);
+		if (dev->flags & WGDEVICE_HAS_S4)
+			mnl_attr_put_u16(nlh, WGDEVICE_A_S4, dev->transport_packet_junk_size);
 		if (dev->flags & WGDEVICE_HAS_H1)
 			mnl_attr_put_u32(nlh, WGDEVICE_A_H1, dev->init_packet_magic_header);
 		if (dev->flags & WGDEVICE_HAS_H2)
@@ -554,6 +558,18 @@ static int parse_device(const struct nlattr *attr, void *data)
 		if (!mnl_attr_validate(attr, MNL_TYPE_U16)) {
 			device->response_packet_junk_size = mnl_attr_get_u16(attr);
 			device->flags |= WGDEVICE_HAS_S2;
+		}
+		break;
+	case WGDEVICE_A_S3:
+		if (!mnl_attr_validate(attr, MNL_TYPE_U16)) {
+			device->cookie_reply_packet_junk_size = mnl_attr_get_u16(attr);
+			device->flags |= WGDEVICE_HAS_S3;
+		}
+		break;
+	case WGDEVICE_A_S4:
+		if (!mnl_attr_validate(attr, MNL_TYPE_U16)) {
+			device->transport_packet_junk_size = mnl_attr_get_u16(attr);
+			device->flags |= WGDEVICE_HAS_S4;
 		}
 		break;
 	case WGDEVICE_A_H1:

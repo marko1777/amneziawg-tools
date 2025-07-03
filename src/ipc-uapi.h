@@ -61,6 +61,10 @@ static int userspace_set_device(struct wgdevice *dev)
 		fprintf(f, "s1=%u\n", dev->init_packet_junk_size);
 	if (dev->flags & WGDEVICE_HAS_S2)
 		fprintf(f, "s2=%u\n", dev->response_packet_junk_size);
+	if (dev->flags & WGDEVICE_HAS_S3)
+		fprintf(f, "s3=%u\n", dev->cookie_reply_packet_junk_size);
+	if (dev->flags & WGDEVICE_HAS_S4)
+		fprintf(f, "s4=%u\n", dev->transport_packet_junk_size);
 	if (dev->flags & WGDEVICE_HAS_H1)
 		fprintf(f, "h1=%u\n", dev->init_packet_magic_header);
 	if (dev->flags & WGDEVICE_HAS_H2)
@@ -244,6 +248,12 @@ static int userspace_get_device(struct wgdevice **out, const char *iface)
 		} else if(!peer && !strcmp(key, "s2")) {
 			dev->response_packet_junk_size = NUM(0xffffU);
 			dev->flags |= WGDEVICE_HAS_S2;
+		} else if(!peer && !strcmp(key, "s3")) {
+			dev->cookie_reply_packet_junk_size = NUM(0xffffU);
+			dev->flags |= WGDEVICE_HAS_S3;
+		} else if(!peer && !strcmp(key, "s4")) {
+			dev->transport_packet_junk_size = NUM(0xffffU);
+			dev->flags |= WGDEVICE_HAS_S4;
 		} else if(!peer && !strcmp(key, "h1")) {
 			dev->init_packet_magic_header = NUM(0xffffffffU);
 			dev->flags |= WGDEVICE_HAS_H1;
