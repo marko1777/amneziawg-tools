@@ -23,7 +23,7 @@
 #define COMMENT_CHAR '#'
 
 // Keys that should return empty string instead of NULL when not found
-static const char *awg_optional_keys[] = {
+static const char *awg_special_handshake_keys[] = {
 	"I1", "I2", "I3", "I4", "I5",
 	"J1", "J2", "J3",
 	NULL
@@ -425,7 +425,7 @@ static inline bool parse_awg_string(char **device_value, const char *name, const
 		return true;
 	}
 
-    if( len >= MAX_AWG_JUNK_LEN) {
+    if (len >= MAX_AWG_JUNK_LEN) {
 		fprintf(stderr, "Unable to process string for: %s; longer than: %d\n", name, MAX_AWG_JUNK_LEN);
 		return false;
     }
@@ -627,13 +627,6 @@ static bool process_line(struct config_ctx *ctx, const char *line)
 			if (ret)
 				ctx->device->flags |= WGDEVICE_HAS_ITIME;
 		} else {
-			// Check if this is an AWG optional key
-			if (strlen(line) == 3) {
-				for (int i = 0; awg_optional_keys[i] != NULL; i++) {
-					if (!strncasecmp(line, awg_optional_keys[i], 2))
-						return true;
-				}
-			}
 			goto error;
 		}
 	} else if (ctx->is_peer_section) {
@@ -677,9 +670,6 @@ bool config_read_line(struct config_ctx *ctx, const char *input)
 	size_t len, cleaned_len = 0;
 	char *line, *comment;
 	bool ret = true;
-	bool found_equals = false;
-	bool found_value_start = false;
-	size_t value_end = 0;
 
 	/* This is what strchrnul is for, but that isn't portable. */
 	comment = strchr(input, COMMENT_CHAR);
@@ -694,6 +684,40 @@ bool config_read_line(struct config_ctx *ctx, const char *input)
 		ret = false;
 		goto out;
 	}
+
+	bool is_awg_special_handshake_key = false;
+	for (size_t i = 0; awg_special_handshake_keys[i] != NULL; i++) {
+		if (!strncasecmp(input, awg_special_handshake_keys[i], 2)) {
+			is_awg_special_handshake_key = true;
+			break;
+		}
+	}
+
+	if (is_awg_special_handshake_key) {
+		cleaned_len = clean_special_handshake_line(input, len, line);
+	} else {
+		for (size_t i = 0; i < len; ++i) {
+			if (!char_is_space(input[i])) {
+				line[cleaned_len++] = input[i];
+			}
+		}
+	}
+
+
+	if (!cleaned_len)
+		goto out;
+	ret = process_line(ctx, line);
+out:
+	free(line);
+	if (!ret)
+		free_wgdevice(ctx->device);
+	return ret;
+}
+
+size_t clean_special_handshake_line(const char *input, size_t len, char *line)
+{
+	size_t cleaned_len = 0, value_end = 0;
+	bool found_equals = false, found_value_start = false;
 
 	/* Remove preceding and trailing whitespaces before value
 	 First pass: find the actual end of the value (trim trailing spaces) */
@@ -725,15 +749,7 @@ bool config_read_line(struct config_ctx *ctx, const char *input)
 			line[cleaned_len++] = input[i];
 		}
 	}
-
-	if (!cleaned_len)
-		goto out;
-	ret = process_line(ctx, line);
-out:
-	free(line);
-	if (!ret)
-		free_wgdevice(ctx->device);
-	return ret;
+	return cleaned_len;
 }
 
 bool config_read_init(struct config_ctx *ctx, bool append)
