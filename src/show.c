@@ -202,7 +202,7 @@ static char *bytes(uint64_t b)
 static const char *COMMAND_NAME;
 static void show_usage(void)
 {
-	fprintf(stderr, "Usage: %s %s { <interface> | all | interfaces } [public-key | private-key | listen-port | fwmark | peers | preshared-keys | endpoints | allowed-ips | latest-handshakes | transfer | persistent-keepalive | dump | jc | jmin | jmax | s1 | s2 | h1 | h2 | h3 | h4 | i1 | i2 | i3 | i4 | i5 | j1 | j2 | j3 | itime]\n", PROG_NAME, COMMAND_NAME);
+	fprintf(stderr, "Usage: %s %s { <interface> | all | interfaces } [public-key | private-key | listen-port | fwmark | peers | preshared-keys | endpoints | allowed-ips | latest-handshakes | transfer | persistent-keepalive | dump | jc | jmin | jmax | s1 | s2 | s3 | s4 | h1 | h2 | h3 | h4 | i1 | i2 | i3 | i4 | i5 | j1 | j2 | j3 | itime]\n", PROG_NAME, COMMAND_NAME);
 }
 
 static void pretty_print(struct wgdevice *device)
@@ -306,6 +306,8 @@ static void dump_print(struct wgdevice *device, bool with_interface)
 	printf("%u\t", device->junk_packet_max_size);
 	printf("%u\t", device->init_packet_junk_size);
 	printf("%u\t", device->response_packet_junk_size);
+	printf("%u\t", device->cookie_reply_packet_junk_size);
+	printf("%u\t", device->transport_packet_junk_size);
 	printf("%u\t", device->init_packet_magic_header);
 	printf("%u\t", device->response_packet_magic_header);
 	printf("%u\t", device->underload_packet_magic_header);
@@ -391,6 +393,14 @@ static bool ugly_print(struct wgdevice *device, const char *param, bool with_int
 		if (with_interface)
 			printf("%s\t", device->name);
 		printf("%u\n", device->response_packet_junk_size);
+	 } else if(!strcmp(param, "s3")) {
+		if (with_interface)
+			printf("%s\t", device->name);
+		printf("%u\n", device->cookie_reply_packet_junk_size);
+	 } else if(!strcmp(param, "s4")) {
+		if (with_interface)
+			printf("%s\t", device->name);
+		printf("%u\n", device->transport_packet_junk_size);
 	 } else if(!strcmp(param, "h1")) {
 		if (with_interface)
 			printf("%s\t", device->name);

@@ -307,64 +307,55 @@ static int kernel_get_device(struct wgdevice **device, const char *iface)
 		dev->transport_packet_magic_header = wg_iface->TransportPacketMagicHeader;
 		dev->flags |= WGDEVICE_HAS_H4;
 	}
-	if (wg_iface->Flags & WG_IOCTL_INTERFACE_I1)
-	{
+	if (wg_iface->Flags & WG_IOCTL_INTERFACE_I1) {
 		const size_t i1_size = strlen((char*)wg_iface->I1) + 1;
 		dev->i1              = (char*)malloc(i1_size);
 		memcpy(dev->i1, wg_iface->I1, i1_size);
 		dev->flags |= WGDEVICE_HAS_I1;
 	}
-	if (wg_iface->Flags & WG_IOCTL_INTERFACE_I2)
-	{
+	if (wg_iface->Flags & WG_IOCTL_INTERFACE_I2) {
 		const size_t i2_size = strlen((char*)wg_iface->I2) + 1;
 		dev->i2              = (char*)malloc(i2_size);
 		memcpy(dev->i2, wg_iface->I2, i2_size);
 		dev->flags |= WGDEVICE_HAS_I2;
 	}
-	if (wg_iface->Flags & WG_IOCTL_INTERFACE_I3)
-	{
+	if (wg_iface->Flags & WG_IOCTL_INTERFACE_I3) {
 		const size_t i3_size = strlen((char*)wg_iface->I3) + 1;
 		dev->i3              = (char*)malloc(i3_size);
 		memcpy(dev->i3, wg_iface->I3, i3_size);
 		dev->flags |= WGDEVICE_HAS_I3;
 	}
-	if (wg_iface->Flags & WG_IOCTL_INTERFACE_I4)
-	{
+	if (wg_iface->Flags & WG_IOCTL_INTERFACE_I4) {
 		const size_t i4_size = strlen((char*)wg_iface->I4) + 1;
 		dev->i4              = (char*)malloc(i4_size);
 		memcpy(dev->i4, wg_iface->I4, i4_size);
 		dev->flags |= WGDEVICE_HAS_I4;
 	}
-	if (wg_iface->Flags & WG_IOCTL_INTERFACE_I5)
-	{
+	if (wg_iface->Flags & WG_IOCTL_INTERFACE_I5) {
 		const size_t i5_size = strlen((char*)wg_iface->I5) + 1;
 		dev->i5              = (char*)malloc(i5_size);
 		memcpy(dev->i5, wg_iface->I5, i5_size);
 		dev->flags |= WGDEVICE_HAS_I5;
 	}
-	if (wg_iface->Flags & WG_IOCTL_INTERFACE_J1)
-	{
+	if (wg_iface->Flags & WG_IOCTL_INTERFACE_J1) {
 		const size_t j1_size = strlen((char*)wg_iface->J1) + 1;
 		dev->j1              = (char*)malloc(j1_size);
 		memcpy(dev->j1, wg_iface->J1, j1_size);
 		dev->flags |= WGDEVICE_HAS_J1;
 	}
-	if (wg_iface->Flags & WG_IOCTL_INTERFACE_J2)
-	{
+	if (wg_iface->Flags & WG_IOCTL_INTERFACE_J2) {
 		const size_t j2_size = strlen((char*)wg_iface->J2) + 1;
 		dev->j2              = (char*)malloc(j2_size);
 		memcpy(dev->j2, wg_iface->J2, j2_size);
 		dev->flags |= WGDEVICE_HAS_J2;
 	}
-	if (wg_iface->Flags & WG_IOCTL_INTERFACE_J3)
-	{
+	if (wg_iface->Flags & WG_IOCTL_INTERFACE_J3) {
 		const size_t j3_size = strlen((char*)wg_iface->J3) + 1;
 		dev->j3              = (char*)malloc(j3_size);
 		memcpy(dev->j3, wg_iface->J3, j3_size);
 		dev->flags |= WGDEVICE_HAS_J3;
 	}
-	if (wg_iface->Flags & WG_IOCTL_INTERFACE_ITIME)
-	{
+	if (wg_iface->Flags & WG_IOCTL_INTERFACE_ITIME) {
 		dev->itime = wg_iface->Itime;
 		dev->flags |= WGDEVICE_HAS_ITIME;
 	}

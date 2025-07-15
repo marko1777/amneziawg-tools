@@ -653,7 +653,7 @@ static int parse_device(const struct nlattr *attr, void *data)
 		}
 		break;
 	case WGDEVICE_A_ITIME:
-		if (!mnl_attr_validate(attr, MNL_TYPE_STRING))
+		if (!mnl_attr_validate(attr, MNL_TYPE_U32))
 		{
 			device->itime = mnl_attr_get_u32(attr);
 			device->flags |= WGDEVICE_HAS_ITIME;

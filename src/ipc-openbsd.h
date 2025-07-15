@@ -215,7 +215,7 @@ static int kernel_get_device(struct wgdevice **device, const char *iface)
 
 	if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_ITIME)
 	{
-		dev->itime = wg_iface->i_itime ;
+		dev->itime = wg_iface->i_itime;
 		dev->flags |= WGDEVICE_HAS_ITIME;
 	}
 

@@ -1271,6 +1271,10 @@ static void parse_options(char **iface, char **config, unsigned int *mtu, char *
 				is_asecurity_on = true;
 			} else if (!strncasecmp(clean, "S2=", 3) && j > 4) {
 				is_asecurity_on = true;
+			} else if (!strncasecmp(clean, "S3=", 3) && j > 4) {
+				is_asecurity_on = true;
+			} else if (!strncasecmp(clean, "S4=", 3) && j > 4) {
+				is_asecurity_on = true;
 			} else if (!strncasecmp(clean, "H1=", 3) && j > 4) {
 				is_asecurity_on = true;
 			} else if (!strncasecmp(clean, "H2=", 3) && j > 4) {
