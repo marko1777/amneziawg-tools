@@ -23,8 +23,8 @@
 #define WG_KEY_LEN 32
 #endif
 
-#ifndef MAX_AWG_JUNK_LEN
-#define MAX_AWG_JUNK_LEN 5 * 1024
+#ifndef MAX_AWG_STRING_LEN
+#define MAX_AWG_STRING_LEN 5 * 1024
 #endif
 
 /* Cross platform __kernel_timespec */
@@ -49,8 +49,7 @@ enum {
 	WGPEER_HAS_PUBLIC_KEY = 1U << 2,
 	WGPEER_HAS_PRESHARED_KEY = 1U << 3,
 	WGPEER_HAS_PERSISTENT_KEEPALIVE_INTERVAL = 1U << 4,
-	WGPEER_HAS_ADVANCED_SECURITY = 1U << 5,
-	WGPEER_HAS_SPECIAL_HANDSHAKE = 1U << 6
+	WGPEER_HAS_AWG = 1U << 5
 };
 
 struct wgpeer {
@@ -69,8 +68,7 @@ struct wgpeer {
 	uint64_t rx_bytes, tx_bytes;
 	uint16_t persistent_keepalive_interval;
 
-	bool advanced_security;
-	bool special_handshake;
+	bool awg;
 
 	struct wgallowedip *first_allowedip, *last_allowedip;
 	struct wgpeer *next_peer;

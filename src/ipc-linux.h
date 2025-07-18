@@ -243,17 +243,10 @@ again:
 					goto toobig_peers;
 			}
 		}
-		if (peer->flags & WGPEER_HAS_ADVANCED_SECURITY) {
-			if (peer->advanced_security)
-				mnl_attr_put_check(nlh, SOCKET_BUFFER_SIZE, WGPEER_A_ADVANCED_SECURITY, 0, NULL);
-			flags |= WGPEER_F_HAS_ADVANCED_SECURITY;
-		}
-		if (peer->flags & WGPEER_HAS_SPECIAL_HANDSHAKE)
-		{
-			if (peer->special_handshake)
-				mnl_attr_put_check(
-					nlh, SOCKET_BUFFER_SIZE, WGPEER_A_SPECIAL_HANDSHAKE, 0, NULL);
-			flags |= WGPEER_F_HAS_SPECIAL_HANDSHAKE;
+		if (peer->flags & WGPEER_HAS_AWG) {
+			if (peer->awg)
+				mnl_attr_put_check(nlh, SOCKET_BUFFER_SIZE, WGPEER_A_AWG, 0, NULL);
+			flags |= WGPEER_F_HAS_AWG;
 		}
 		if (flags) {
 			if (!mnl_attr_put_u32_check(nlh, SOCKET_BUFFER_SIZE, WGPEER_A_FLAGS, flags))
@@ -427,25 +420,18 @@ static int parse_peer(const struct nlattr *attr, void *data)
 		if (!mnl_attr_validate(attr, MNL_TYPE_U32)) {
 			uint32_t flags = mnl_attr_get_u32(attr);
 
-			if (flags & WGPEER_F_HAS_ADVANCED_SECURITY && !(peer->flags & WGPEER_HAS_ADVANCED_SECURITY)) {
-				peer->flags |= WGPEER_HAS_ADVANCED_SECURITY;
-				peer->advanced_security = false;
-			}
-			if (
-				flags & WGPEER_F_HAS_SPECIAL_HANDSHAKE &&
-				!(peer->flags & WGPEER_HAS_SPECIAL_HANDSHAKE))
-			{
-				peer->flags |= WGPEER_HAS_SPECIAL_HANDSHAKE;
-				peer->special_handshake = false;
+			if (flags & WGPEER_F_HAS_AWG && !(peer->flags & WGPEER_HAS_AWG)) {
+				peer->flags |= WGPEER_HAS_AWG;
+				peer->awg = false;
 			}
 		}
 		break;
-	case WGPEER_A_ADVANCED_SECURITY:
+	case WGPEER_A_AWG:
 		if (!mnl_attr_validate(attr, MNL_TYPE_FLAG)) {
-			peer->advanced_security = true;
+			peer->awg = true;
 
-			if (!(peer->flags & WGPEER_HAS_ADVANCED_SECURITY)) {
-				peer->flags |= WGPEER_HAS_ADVANCED_SECURITY;
+			if (!(peer->flags & WGPEER_HAS_AWG)) {
+				peer->flags |= WGPEER_HAS_AWG;
 			}
 		}
 		break;
