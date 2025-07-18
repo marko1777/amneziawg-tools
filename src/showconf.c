@@ -95,11 +95,8 @@ int showconf_main(int argc, const char *argv[])
 			key_to_base64(base64, peer->preshared_key);
 			printf("PresharedKey = %s\n", base64);
 		}
-		if (peer->flags & WGPEER_HAS_ADVANCED_SECURITY) {
-			printf("AdvancedSecurity = %s\n", peer->advanced_security ? "on" : "off");
-		}
-		if (peer->flags & WGPEER_HAS_SPECIAL_HANDSHAKE) {
-			printf("SpecialHandshake = %s\n", peer->special_handshake ? "on" : "off");
+		if (peer->flags & WGPEER_HAS_AWG) {
+			printf("AdvancedSecurity = %s\n", peer->awg ? "on" : "off");
 		}
 		if (peer->first_allowedip)
 			printf("AllowedIPs = ");

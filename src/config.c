@@ -425,8 +425,8 @@ static inline bool parse_awg_string(char **device_value, const char *name, const
 		return true;
 	}
 
-    if (len >= MAX_AWG_JUNK_LEN) {
-		fprintf(stderr, "Unable to process string for: %s; longer than: %d\n", name, MAX_AWG_JUNK_LEN);
+    if (len >= MAX_AWG_STRING_LEN) {
+		fprintf(stderr, "Unable to process string for: %s; longer than: %d\n", name, MAX_AWG_STRING_LEN);
 		return false;
     }
     *device_value = strdup(value);
@@ -645,13 +645,9 @@ static bool process_line(struct config_ctx *ctx, const char *line)
 			if (ret)
 				ctx->last_peer->flags |= WGPEER_HAS_PRESHARED_KEY;
 		} else if (key_match("AdvancedSecurity")) {
-			ret = parse_bool(&ctx->last_peer->advanced_security, "AdvancedSecurity", value);
+			ret = parse_bool(&ctx->last_peer->awg, "AdvancedSecurity", value);
 			if (ret)
-				ctx->last_peer->flags |= WGPEER_HAS_ADVANCED_SECURITY;
-		} else if (key_match("SpecialHandshake")) {
-			ret = parse_bool(&ctx->last_peer->special_handshake, "SpecialHandshake", value);
-			if (ret)
-				ctx->last_peer->flags |= WGPEER_HAS_SPECIAL_HANDSHAKE;
+				ctx->last_peer->flags |= WGPEER_HAS_AWG;
 		} else
 			goto error;
 	} else
@@ -1017,15 +1013,9 @@ struct wgdevice *config_read_cmd(const char *argv[], int argc)
 			argv += 2;
 			argc -= 2;
 		} else if (!strcmp(argv[0], "advanced-security") && argc >= 2 && peer) {
-			if (!parse_bool(&peer->advanced_security, "AdvancedSecurity", argv[1]))
+			if (!parse_bool(&peer->awg, "AdvancedSecurity", argv[1]))
 				goto error;
-			peer->flags |= WGPEER_HAS_ADVANCED_SECURITY;
-			argv += 2;
-			argc -= 2;
-		} else if (!strcmp(argv[0], "special-handshake") && argc >= 2 && peer) {
-			if (!parse_bool(&peer->special_handshake, "SpecialHandshake", argv[1]))
-				goto error;
-			peer->flags |= WGPEER_HAS_SPECIAL_HANDSHAKE;
+			peer->flags |= WGPEER_HAS_AWG;
 			argv += 2;
 			argc -= 2;
 		} else {
