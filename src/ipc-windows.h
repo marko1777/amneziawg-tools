@@ -292,19 +292,27 @@ static int kernel_get_device(struct wgdevice **device, const char *iface)
 		dev->flags |= WGDEVICE_HAS_S4;
 	}
 	if (wg_iface->Flags & WG_IOCTL_INTERFACE_H1) {
-		dev->init_packet_magic_header = wg_iface->InitPacketMagicHeader;
+		const size_t init_size = strlen((char*)wg_iface->InitPacketMagicHeader) + 1;
+		dev->init_packet_magic_header = (char*)malloc(init_size);
+		memcpy(dev->init_packet_magic_header, wg_iface->InitPacketMagicHeader, init_size);
 		dev->flags |= WGDEVICE_HAS_H1;
 	}
 	if (wg_iface->Flags & WG_IOCTL_INTERFACE_H2) {
-		dev->response_packet_magic_header = wg_iface->ResponsePacketMagicHeader;
+		const size_t response_size = strlen((char*)wg_iface->ResponsePacketMagicHeader) + 1;
+		dev->response_packet_magic_header = (char*)malloc(response_size);
+		memcpy(dev->response_packet_magic_header, wg_iface->ResponsePacketMagicHeader, response_size);
 		dev->flags |= WGDEVICE_HAS_H2;
 	}
 	if (wg_iface->Flags & WG_IOCTL_INTERFACE_H3) {
-		dev->underload_packet_magic_header = wg_iface->UnderloadPacketMagicHeader;
+		const size_t underload_size = strlen((char*)wg_iface->UnderloadPacketMagicHeader) + 1;
+		dev->underload_packet_magic_header = (char*)malloc(underload_size);
+		memcpy(dev->underload_packet_magic_header, wg_iface->UnderloadPacketMagicHeader, underload_size);
 		dev->flags |= WGDEVICE_HAS_H3;
 	}
 	if (wg_iface->Flags & WG_IOCTL_INTERFACE_H4) {
-		dev->transport_packet_magic_header = wg_iface->TransportPacketMagicHeader;
+		const size_t transport_size = strlen((char*)wg_iface->TransportPacketMagicHeader) + 1;
+		dev->transport_packet_magic_header = (char*)malloc(transport_size);
+		memcpy(dev->transport_packet_magic_header, wg_iface->TransportPacketMagicHeader, transport_size);
 		dev->flags |= WGDEVICE_HAS_H4;
 	}
 	if (wg_iface->Flags & WG_IOCTL_INTERFACE_I1) {
@@ -516,22 +524,30 @@ static int kernel_set_device(struct wgdevice *dev)
 	}
 
 	if (dev->flags & WGDEVICE_HAS_H1) {
-		wg_iface->InitPacketMagicHeader = dev->init_packet_magic_header;
+		const size_t init_size = strlen(dev->init_packet_magic_header) + 1;
+		wg_iface->InitPacketMagicHeader = (char*)init_size;
+		memcpy(wg_iface->InitPacketMagicHeader, dev->init_packet_magic_header, init_size);
 		wg_iface->Flags |= WG_IOCTL_INTERFACE_H1;
 	}
 
 	if (dev->flags & WGDEVICE_HAS_H2) {
-		wg_iface->ResponsePacketMagicHeader = dev->response_packet_magic_header;
+		const size_t response_size = strlen(dev->response_packet_magic_header) + 1;
+		wg_iface->ResponsePacketMagicHeader = (char*)response_size;
+		memcpy(wg_iface->ResponsePacketMagicHeader, dev->response_packet_magic_header, response_size);
 		wg_iface->Flags |= WG_IOCTL_INTERFACE_H2;
 	}
 
 	if (dev->flags & WGDEVICE_HAS_H3) {
-		wg_iface->UnderloadPacketMagicHeader = dev->underload_packet_magic_header;
+		const size_t underload_size = strlen(dev->underload_packet_magic_header) + 1;
+		wg_iface->UnderloadPacketMagicHeader = (char*)underload_size;
+		memcpy(wg_iface->UnderloadPacketMagicHeader, dev->underload_packet_magic_header, underload_size);
 		wg_iface->Flags |= WG_IOCTL_INTERFACE_H3;
 	}
 
 	if (dev->flags & WGDEVICE_HAS_H4) {
-		wg_iface->TransportPacketMagicHeader = dev->transport_packet_magic_header;
+		const size_t transport_size = strlen(dev->transport_packet_magic_header) + 1;
+		wg_iface->TransportPacketMagicHeader = (char*)transport_size;
+		memcpy(wg_iface->TransportPacketMagicHeader, dev->transport_packet_magic_header, transport_size);
 		wg_iface->Flags |= WG_IOCTL_INTERFACE_H4;
 	}
 

@@ -94,10 +94,10 @@ typedef struct _WG_IOCTL_INTERFACE
 	USHORT ResponsePacketJunkSize;
 	USHORT CookieReplyPacketJunkSize;
 	USHORT TransportPacketJunkSize;
-	ULONG InitPacketMagicHeader;
-	ULONG ResponsePacketMagicHeader;
-	ULONG UnderloadPacketMagicHeader;
-	ULONG TransportPacketMagicHeader;
+	UCHAR* InitPacketMagicHeader;
+	UCHAR* ResponsePacketMagicHeader;
+	UCHAR* UnderloadPacketMagicHeader;
+	UCHAR* TransportPacketMagicHeader;
 
 	UCHAR* I1;
 	UCHAR* I2;

@@ -125,10 +125,10 @@ struct wgdevice {
 	uint16_t response_packet_junk_size;
 	uint16_t cookie_reply_packet_junk_size;
 	uint16_t transport_packet_junk_size;
-	uint32_t init_packet_magic_header;
-	uint32_t response_packet_magic_header;
-	uint32_t underload_packet_magic_header;
-	uint32_t transport_packet_magic_header;
+	char* init_packet_magic_header;
+	char* response_packet_magic_header;
+	char* underload_packet_magic_header;
+	char* transport_packet_magic_header;
 	char*    i1;
 	char*    i2;
 	char*    i3;

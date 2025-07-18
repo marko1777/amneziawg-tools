@@ -575,19 +575,19 @@ static bool process_line(struct config_ctx *ctx, const char *line)
 			if (ret)
 				ctx->device->flags |= WGDEVICE_HAS_S4;
 		} else if (key_match("H1")) {
-			ret = parse_uint32(&ctx->device->init_packet_magic_header, "H1", value);
+			ret = parse_awg_string(&ctx->device->init_packet_magic_header, "H1", value);
 			if (ret)
 				ctx->device->flags |= WGDEVICE_HAS_H1;
 		} else if (key_match("H2")) {
-			ret = parse_uint32(&ctx->device->response_packet_magic_header, "H2", value);
+			ret = parse_awg_string(&ctx->device->response_packet_magic_header, "H2", value);
 			if (ret)
 				ctx->device->flags |= WGDEVICE_HAS_H2;
 		} else if (key_match("H3")) {
-			ret = parse_uint32(&ctx->device->underload_packet_magic_header, "H3", value);
+			ret = parse_awg_string(&ctx->device->underload_packet_magic_header, "H3", value);
 			if (ret)
 				ctx->device->flags |= WGDEVICE_HAS_H3;
 		} else if (key_match("H4")) {
-			ret = parse_uint32(&ctx->device->transport_packet_magic_header, "H4", value);
+			ret = parse_awg_string(&ctx->device->transport_packet_magic_header, "H4", value);
 			if (ret)
 				ctx->device->flags |= WGDEVICE_HAS_H4;
 		} else if (key_match("I1")) {
@@ -876,28 +876,28 @@ struct wgdevice *config_read_cmd(const char *argv[], int argc)
 			argv += 2;
 			argc -= 2;
 		} else if (!strcmp(argv[0], "h1") && argc >= 2 && !peer) {
-			if (!parse_uint32(&device->init_packet_magic_header, "h1", argv[1]))
+			if (!parse_awg_string(&device->init_packet_magic_header, "h1", argv[1]))
 				goto error;
 
 			device->flags |= WGDEVICE_HAS_H1;
 			argv += 2;
 			argc -= 2;
 		} else if (!strcmp(argv[0], "h2") && argc >= 2 && !peer) {
-			if (!parse_uint32(&device->response_packet_magic_header, "h2", argv[1]))
+			if (!parse_awg_string(&device->response_packet_magic_header, "h2", argv[1]))
 				goto error;
 
 			device->flags |= WGDEVICE_HAS_H2;
 			argv += 2;
 			argc -= 2;
 		} else if (!strcmp(argv[0], "h3") && argc >= 2 && !peer) {
-			if (!parse_uint32(&device->underload_packet_magic_header, "h3", argv[1]))
+			if (!parse_awg_string(&device->underload_packet_magic_header, "h3", argv[1]))
 				goto error;
 
 			device->flags |= WGDEVICE_HAS_H3;
 			argv += 2;
 			argc -= 2;
 		} else if (!strcmp(argv[0], "h4") && argc >= 2 && !peer) {
-			if (!parse_uint32(&device->transport_packet_magic_header, "h4", argv[1]))
+			if (!parse_awg_string(&device->transport_packet_magic_header, "h4", argv[1]))
 				goto error;
 
 			device->flags |= WGDEVICE_HAS_H4;

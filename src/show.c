@@ -235,13 +235,13 @@ static void pretty_print(struct wgdevice *device)
 	if (device->transport_packet_junk_size)
 		terminal_printf("  " TERMINAL_BOLD "s4" TERMINAL_RESET ": %u\n", device->transport_packet_junk_size);
 	if (device->init_packet_magic_header)
-		terminal_printf("  " TERMINAL_BOLD "h1" TERMINAL_RESET ": %u\n", device->init_packet_magic_header);
+		terminal_printf("  " TERMINAL_BOLD "h1" TERMINAL_RESET ": %s\n", device->init_packet_magic_header);
 	if (device->response_packet_magic_header)
-		terminal_printf("  " TERMINAL_BOLD "h2" TERMINAL_RESET ": %u\n", device->response_packet_magic_header);
+		terminal_printf("  " TERMINAL_BOLD "h2" TERMINAL_RESET ": %s\n", device->response_packet_magic_header);
 	if (device->underload_packet_magic_header)
-		terminal_printf("  " TERMINAL_BOLD "h3" TERMINAL_RESET ": %u\n", device->underload_packet_magic_header);
+		terminal_printf("  " TERMINAL_BOLD "h3" TERMINAL_RESET ": %s\n", device->underload_packet_magic_header);
 	if (device->transport_packet_magic_header)
-		terminal_printf("  " TERMINAL_BOLD "h4" TERMINAL_RESET ": %u\n", device->transport_packet_magic_header);
+		terminal_printf("  " TERMINAL_BOLD "h4" TERMINAL_RESET ": %s\n", device->transport_packet_magic_header);
 	if (device->i1)
 		terminal_printf("  " TERMINAL_BOLD "i1" TERMINAL_RESET ": %s\n", device->i1);
 	if (device->i2)
@@ -308,10 +308,10 @@ static void dump_print(struct wgdevice *device, bool with_interface)
 	printf("%u\t", device->response_packet_junk_size);
 	printf("%u\t", device->cookie_reply_packet_junk_size);
 	printf("%u\t", device->transport_packet_junk_size);
-	printf("%u\t", device->init_packet_magic_header);
-	printf("%u\t", device->response_packet_magic_header);
-	printf("%u\t", device->underload_packet_magic_header);
-	printf("%u\t", device->transport_packet_magic_header);
+	printf("%s\t", device->init_packet_magic_header);
+	printf("%s\t", device->response_packet_magic_header);
+	printf("%s\t", device->underload_packet_magic_header);
+	printf("%s\t", device->transport_packet_magic_header);
 	printf("%s\t", device->i1);
 	printf("%s\t", device->i2);
 	printf("%s\t", device->i3);
@@ -404,19 +404,19 @@ static bool ugly_print(struct wgdevice *device, const char *param, bool with_int
 	 } else if(!strcmp(param, "h1")) {
 		if (with_interface)
 			printf("%s\t", device->name);
-		printf("%u\n", device->init_packet_magic_header);
+		printf("%s\n", device->init_packet_magic_header);
 	 } else if(!strcmp(param, "h2")) {
 		if (with_interface)
 			printf("%s\t", device->name);
-		printf("%u\n", device->response_packet_magic_header);
+		printf("%s\n", device->response_packet_magic_header);
 	 } else if(!strcmp(param, "h3")) {
 		if (with_interface)
 			printf("%s\t", device->name);
-		printf("%u\n", device->underload_packet_magic_header);
+		printf("%s\n", device->underload_packet_magic_header);
 	 } else if(!strcmp(param, "h4")) {
 		if (with_interface)
 			printf("%s\t", device->name);
-		printf("%u\n", device->transport_packet_magic_header);
+		printf("%s\n", device->transport_packet_magic_header);
 	} else if(!strcmp(param, "i1")) {
 		if (with_interface)
 			printf("%s\t", device->name);

@@ -24,10 +24,10 @@ while read -r -d $'\t' device; do
 		[[ $s2 == "0" ]] || { printf '%s\t\t"s2": %u' "$delim" $(( $s2 )); delim=$',\n'; }
 		[[ $s3 == "0" ]] || { printf '%s\t\t"s3": %u' "$delim" $(( $s3 )); delim=$',\n'; }
 		[[ $s4 == "0" ]] || { printf '%s\t\t"s4": %u' "$delim" $(( $s4 )); delim=$',\n'; }
-		[[ $h1 == "1" ]] || { printf '%s\t\t"h1": %u' "$delim" $(( $h1 )); delim=$',\n'; }
-		[[ $h2 == "2" ]] || { printf '%s\t\t"h2": %u' "$delim" $(( $h2 )); delim=$',\n'; }
-		[[ $h3 == "3" ]] || { printf '%s\t\t"h3": %u' "$delim" $(( $h3 )); delim=$',\n'; }
-		[[ $h4 == "4" ]] || { printf '%s\t\t"h4": %u' "$delim" $(( $h4 )); delim=$',\n'; }
+		[[ $h1 == "1" ]] || { printf '%s\t\t"h1": %s' "$delim" $(( $h1 )); delim=$',\n'; }
+		[[ $h2 == "2" ]] || { printf '%s\t\t"h2": %s' "$delim" $(( $h2 )); delim=$',\n'; }
+		[[ $h3 == "3" ]] || { printf '%s\t\t"h3": %s' "$delim" $(( $h3 )); delim=$',\n'; }
+		[[ $h4 == "4" ]] || { printf '%s\t\t"h4": %s' "$delim" $(( $h4 )); delim=$',\n'; }
 		[[ $i1 == "(none)" ]] || { printf '%s\t\t"i1": "%s"' "$delim" "$i1"; delim=$',\n'; }
 		[[ $i2 == "(none)" ]] || { printf '%s\t\t"i2": "%s"' "$delim" "$i2"; delim=$',\n'; }
 		[[ $i3 == "(none)" ]] || { printf '%s\t\t"i3": "%s"' "$delim" "$i3"; delim=$',\n'; }

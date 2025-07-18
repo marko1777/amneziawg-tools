@@ -66,13 +66,13 @@ static int userspace_set_device(struct wgdevice *dev)
 	if (dev->flags & WGDEVICE_HAS_S4)
 		fprintf(f, "s4=%u\n", dev->transport_packet_junk_size);
 	if (dev->flags & WGDEVICE_HAS_H1)
-		fprintf(f, "h1=%u\n", dev->init_packet_magic_header);
+		fprintf(f, "h1=%s\n", dev->init_packet_magic_header);
 	if (dev->flags & WGDEVICE_HAS_H2)
-		fprintf(f, "h2=%u\n", dev->response_packet_magic_header);
+		fprintf(f, "h2=%s\n", dev->response_packet_magic_header);
 	if (dev->flags & WGDEVICE_HAS_H3)
-		fprintf(f, "h3=%u\n", dev->underload_packet_magic_header);
+		fprintf(f, "h3=%s\n", dev->underload_packet_magic_header);
 	if (dev->flags & WGDEVICE_HAS_H4)
-		fprintf(f, "h4=%u\n", dev->transport_packet_magic_header);
+		fprintf(f, "h4=%s\n", dev->transport_packet_magic_header);
 
 	if (dev->flags & WGDEVICE_HAS_I1)
 		fprintf(f, "i1=%s\n", dev->i1);
@@ -255,16 +255,16 @@ static int userspace_get_device(struct wgdevice **out, const char *iface)
 			dev->transport_packet_junk_size = NUM(0xffffU);
 			dev->flags |= WGDEVICE_HAS_S4;
 		} else if(!peer && !strcmp(key, "h1")) {
-			dev->init_packet_magic_header = NUM(0xffffffffU);
+			dev->init_packet_magic_header = strdup(value);
 			dev->flags |= WGDEVICE_HAS_H1;
 		} else if(!peer && !strcmp(key, "h2")) {
-			dev->response_packet_magic_header = NUM(0xffffffffU);
+			dev->response_packet_magic_header = strdup(value);
 			dev->flags |= WGDEVICE_HAS_H2;
 		} else if(!peer && !strcmp(key, "h3")) {
-			dev->underload_packet_magic_header = NUM(0xffffffffU);
+			dev->underload_packet_magic_header = strdup(value);
 			dev->flags |= WGDEVICE_HAS_H3;
 		} else if(!peer && !strcmp(key, "h4")) {
-			dev->transport_packet_magic_header = NUM(0xffffffffU);
+			dev->transport_packet_magic_header = strdup(value);
 			dev->flags |= WGDEVICE_HAS_H4;
 		} else if (!peer && !strcmp(key, "i1")) {
 			dev->i1 = strdup(value);

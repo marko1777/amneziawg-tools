@@ -146,22 +146,22 @@ static int kernel_get_device(struct wgdevice **device, const char *iface)
 	}
 
 	if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_H1) {
-		dev->init_packet_magic_header = wg_iface->i_init_packet_magic_header;
+		dev->init_packet_magic_header = strdup(wg_iface->i_init_packet_magic_header);
 		dev->flags |= WGDEVICE_HAS_H1;
 	}
 
 	if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_H2) {
-		dev->response_packet_magic_header = wg_iface->i_response_packet_magic_header;
+		dev->response_packet_magic_header = strdup(wg_iface->i_response_packet_magic_header);
 		dev->flags |= WGDEVICE_HAS_H2;
 	}
 
 	if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_H3) {
-		dev->underload_packet_magic_header = wg_iface->i_underload_packet_magic_header;
+		dev->underload_packet_magic_header = strdup(wg_iface->i_underload_packet_magic_header);
 		dev->flags |= WGDEVICE_HAS_H3;
 	}
 
 	if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_H4) {
-		dev->transport_packet_magic_header = wg_iface->i_transport_packet_magic_header;
+		dev->transport_packet_magic_header = strdup(wg_iface->i_transport_packet_magic_header);
 		dev->flags |= WGDEVICE_HAS_H4;
 	}
 
@@ -367,22 +367,22 @@ static int kernel_set_device(struct wgdevice *dev)
 	}
 
 	if (dev->flags & WGDEVICE_HAS_H1) {
-		wg_iface->i_init_packet_magic_header = dev->init_packet_magic_header;
+		wg_iface->i_init_packet_magic_header = strdup(dev->init_packet_magic_header);
 		wg_iface->i_flags |= WG_INTERFACE_DEVICE_HAS_H1;
 	}
 
 	if (dev->flags & WGDEVICE_HAS_H2) {
-		wg_iface->i_response_packet_magic_header = dev->response_packet_magic_header;
+		wg_iface->i_response_packet_magic_header = strdup(dev->response_packet_magic_header);
 		wg_iface->i_flags |= WG_INTERFACE_DEVICE_HAS_H2;
 	}
 
 	if (dev->flags & WGDEVICE_HAS_H3) {
-		wg_iface->i_underload_packet_magic_header = dev->underload_packet_magic_header;
+		wg_iface->i_underload_packet_magic_header = strdup(dev->underload_packet_magic_header);
 		wg_iface->i_flags |= WG_INTERFACE_DEVICE_HAS_H3;
 	}
 
 	if (dev->flags & WGDEVICE_HAS_H4) {
-		wg_iface->i_transport_packet_magic_header = dev->transport_packet_magic_header;
+		wg_iface->i_transport_packet_magic_header = strdup(dev->transport_packet_magic_header);
 		wg_iface->i_flags |= WG_INTERFACE_DEVICE_HAS_H4;
 	}
 

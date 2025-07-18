@@ -141,30 +141,34 @@ static int kernel_get_device(struct wgdevice **device, const char *ifname)
 		}
 	}
 	if (nvlist_exists_number(nvl_device, "h1")) {
-		number = nvlist_get_number(nvl_device, "h1");
-		if (number <= UINT32_MAX){
-			dev->init_packet_magic_header = number;
+		binary = nvlist_get_binary(nvl_device, "h1", &size);
+		if (binary && size < MAX_AWG_JUNK_LEN)
+		{
+			dev->init_packet_magic_header = strdup((const char*)binary);
 			dev->flags |= WGDEVICE_HAS_H1;
 		}
 	}
 	if (nvlist_exists_number(nvl_device, "h2")) {
-		number = nvlist_get_number(nvl_device, "h2");
-		if (number <= UINT32_MAX){
-			dev->response_packet_magic_header = number;
+		binary = nvlist_get_binary(nvl_device, "h2", &size);
+		if (binary && size < MAX_AWG_JUNK_LEN)
+		{
+			dev->response_packet_magic_header = strdup((const char*)binary);
 			dev->flags |= WGDEVICE_HAS_H2;
 		}
 	}
 	if (nvlist_exists_number(nvl_device, "h3")) {
-		number = nvlist_get_number(nvl_device, "h3");
-		if (number <= UINT32_MAX){
-			dev->underload_packet_magic_header = number;
+		binary = nvlist_get_binary(nvl_device, "h3", &size);
+		if (binary && size < MAX_AWG_JUNK_LEN)
+		{
+			dev->underload_packet_magic_header = strdup((const char*)binary);
 			dev->flags |= WGDEVICE_HAS_H3;
 		}
 	}
 	if (nvlist_exists_number(nvl_device, "h4")) {
-		number = nvlist_get_number(nvl_device, "h4");
-		if (number <= UINT32_MAX){
-			dev->transport_packet_magic_header = number;
+		binary = nvlist_get_binary(nvl_device, "h4", &size);
+		if (binary && size < MAX_AWG_JUNK_LEN)
+		{
+			dev->transport_packet_magic_header = strdup((const char*)binary);
 			dev->flags |= WGDEVICE_HAS_H4;
 		}
 	}
@@ -446,13 +450,13 @@ static int kernel_set_device(struct wgdevice *dev)
 	if (dev->flags & WGDEVICE_HAS_S4)
 		nvlist_add_number(nvl_device, "s4", dev->transport_packet_junk_size);
 	if (dev->flags & WGDEVICE_HAS_H1)
-		nvlist_add_number(nvl_device, "h1", dev->init_packet_magic_header);
+		nvlist_add_binary(nvl_device, "h1", dev->init_packet_magic_header, strlen(dev->h1) + 1);
 	if (dev->flags & WGDEVICE_HAS_H2)
-		nvlist_add_number(nvl_device, "h2", dev->response_packet_magic_header);
+		nvlist_add_binary(nvl_device, "h2", dev->response_packet_magic_header, strlen(dev->h2) + 1);
 	if (dev->flags & WGDEVICE_HAS_H3)
-		nvlist_add_number(nvl_device, "h3", dev->underload_packet_magic_header);
+		nvlist_add_binary(nvl_device, "h3", dev->underload_packet_magic_header, strlen(dev->h3) + 1);
 	if (dev->flags & WGDEVICE_HAS_H4)
-		nvlist_add_number(nvl_device, "h4", dev->transport_packet_magic_header);
+		nvlist_add_binary(nvl_device, "h4", dev->transport_packet_magic_header, strlen(dev->h4) + 1);
 	if (dev->flags & WGDEVICE_HAS_I1)
 		nvlist_add_binary(nvl_device, "i1", dev->i1, strlen(dev->i1) + 1);
 	if (dev->flags & WGDEVICE_HAS_I2)

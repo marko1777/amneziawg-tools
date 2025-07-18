@@ -109,10 +109,10 @@ struct wg_interface_io {
     uint16_t 			i_response_packet_junk_size;
     uint16_t 			i_cookie_reply_packet_junk_size;
     uint16_t 			i_transport_packet_junk_size;
-    uint32_t 			i_init_packet_magic_header;
-    uint32_t 			i_response_packet_magic_header;
-    uint32_t 			i_underload_packet_magic_header;
-    uint32_t 			i_transport_packet_magic_header;
+    uint8_t* 			i_init_packet_magic_header;
+    uint8_t* 			i_response_packet_magic_header;
+    uint8_t* 			i_underload_packet_magic_header;
+    uint8_t* 			i_transport_packet_magic_header;
 
     uint8_t* i_i1;
     uint8_t* i_i2;

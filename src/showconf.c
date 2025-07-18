@@ -61,13 +61,13 @@ int showconf_main(int argc, const char *argv[])
 	if (device->flags & WGDEVICE_HAS_S4)
 		printf("S4 = %u\n", device->transport_packet_junk_size);
 	if (device->flags & WGDEVICE_HAS_H1)
-		printf("H1 = %u\n", device->init_packet_magic_header);
+		printf("H1 = %s\n", device->init_packet_magic_header);
 	if (device->flags & WGDEVICE_HAS_H2)
-		printf("H2 = %u\n", device->response_packet_magic_header);
+		printf("H2 = %s\n", device->response_packet_magic_header);
 	if (device->flags & WGDEVICE_HAS_H3)
-		printf("H3 = %u\n", device->underload_packet_magic_header);
+		printf("H3 = %s\n", device->underload_packet_magic_header);
 	if (device->flags & WGDEVICE_HAS_H4)
-		printf("H4 = %u\n", device->transport_packet_magic_header);
+		printf("H4 = %s\n", device->transport_packet_magic_header);
 	if (device->flags & WGDEVICE_HAS_I1)
 		printf("I1 = %s\n", device->i1);
 	if (device->flags & WGDEVICE_HAS_I2)
