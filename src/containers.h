@@ -150,6 +150,21 @@ static inline void free_wgdevice(struct wgdevice *dev)
 			free(allowedip);
 		free(peer);
 	}
+
+	
+	free(dev->init_packet_magic_header);
+	free(dev->response_packet_magic_header);
+	free(dev->underload_packet_magic_header);
+	free(dev->transport_packet_magic_header);
+	free(dev->i1);
+	free(dev->i2);
+	free(dev->i3);
+	free(dev->i4);
+	free(dev->i5);
+	free(dev->j1);
+	free(dev->j2);
+	free(dev->j3);
+
 	free(dev);
 }
 

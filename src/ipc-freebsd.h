@@ -140,7 +140,7 @@ static int kernel_get_device(struct wgdevice **device, const char *ifname)
 			dev->flags |= WGDEVICE_HAS_S4;
 		}
 	}
-	if (nvlist_exists_number(nvl_device, "h1")) {
+	if (nvlist_exists_binary(nvl_device, "h1")) {
 		binary = nvlist_get_binary(nvl_device, "h1", &size);
 		if (binary && size < MAX_AWG_STRING_LEN)
 		{
@@ -148,7 +148,7 @@ static int kernel_get_device(struct wgdevice **device, const char *ifname)
 			dev->flags |= WGDEVICE_HAS_H1;
 		}
 	}
-	if (nvlist_exists_number(nvl_device, "h2")) {
+	if (nvlist_exists_binary(nvl_device, "h2")) {
 		binary = nvlist_get_binary(nvl_device, "h2", &size);
 		if (binary && size < MAX_AWG_STRING_LEN)
 		{
@@ -156,7 +156,7 @@ static int kernel_get_device(struct wgdevice **device, const char *ifname)
 			dev->flags |= WGDEVICE_HAS_H2;
 		}
 	}
-	if (nvlist_exists_number(nvl_device, "h3")) {
+	if (nvlist_exists_binary(nvl_device, "h3")) {
 		binary = nvlist_get_binary(nvl_device, "h3", &size);
 		if (binary && size < MAX_AWG_STRING_LEN)
 		{
@@ -164,7 +164,7 @@ static int kernel_get_device(struct wgdevice **device, const char *ifname)
 			dev->flags |= WGDEVICE_HAS_H3;
 		}
 	}
-	if (nvlist_exists_number(nvl_device, "h4")) {
+	if (nvlist_exists_binary(nvl_device, "h4")) {
 		binary = nvlist_get_binary(nvl_device, "h4", &size);
 		if (binary && size < MAX_AWG_STRING_LEN)
 		{

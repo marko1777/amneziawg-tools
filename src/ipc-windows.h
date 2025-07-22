@@ -525,28 +525,28 @@ static int kernel_set_device(struct wgdevice *dev)
 
 	if (dev->flags & WGDEVICE_HAS_H1) {
 		const size_t init_size = strlen(dev->init_packet_magic_header) + 1;
-		wg_iface->InitPacketMagicHeader = (char*)init_size;
+		wg_iface->InitPacketMagicHeader = (UCHAR*)malloc(init_size);
 		memcpy(wg_iface->InitPacketMagicHeader, dev->init_packet_magic_header, init_size);
 		wg_iface->Flags |= WG_IOCTL_INTERFACE_H1;
 	}
 
 	if (dev->flags & WGDEVICE_HAS_H2) {
 		const size_t response_size = strlen(dev->response_packet_magic_header) + 1;
-		wg_iface->ResponsePacketMagicHeader = (char*)response_size;
+		wg_iface->ResponsePacketMagicHeader = (UCHAR*)malloc(response_size);
 		memcpy(wg_iface->ResponsePacketMagicHeader, dev->response_packet_magic_header, response_size);
 		wg_iface->Flags |= WG_IOCTL_INTERFACE_H2;
 	}
 
 	if (dev->flags & WGDEVICE_HAS_H3) {
 		const size_t underload_size = strlen(dev->underload_packet_magic_header) + 1;
-		wg_iface->UnderloadPacketMagicHeader = (char*)underload_size;
+		wg_iface->UnderloadPacketMagicHeader = (UCHAR*)malloc(underload_size);
 		memcpy(wg_iface->UnderloadPacketMagicHeader, dev->underload_packet_magic_header, underload_size);
 		wg_iface->Flags |= WG_IOCTL_INTERFACE_H3;
 	}
 
 	if (dev->flags & WGDEVICE_HAS_H4) {
 		const size_t transport_size = strlen(dev->transport_packet_magic_header) + 1;
-		wg_iface->TransportPacketMagicHeader = (char*)transport_size;
+		wg_iface->TransportPacketMagicHeader = (UCHAR*)malloc(transport_size);
 		memcpy(wg_iface->TransportPacketMagicHeader, dev->transport_packet_magic_header, transport_size);
 		wg_iface->Flags |= WG_IOCTL_INTERFACE_H4;
 	}
@@ -672,6 +672,20 @@ static int kernel_set_device(struct wgdevice *dev)
 
 out:
 	ret = -errno;
+	if (wg_iface) {
+		free(wg_iface->InitPacketMagicHeader);
+		free(wg_iface->ResponsePacketMagicHeader);
+		free(wg_iface->UnderloadPacketMagicHeader);
+		free(wg_iface->TransportPacketMagicHeader);
+		free(wg_iface->I1);
+		free(wg_iface->I2);
+		free(wg_iface->I3);
+		free(wg_iface->I4);
+		free(wg_iface->I5);
+		free(wg_iface->J1);
+		free(wg_iface->J2);
+		free(wg_iface->J3);
+	}
 	free(wg_iface);
 	CloseHandle(handle);
 	return ret;

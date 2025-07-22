@@ -495,6 +495,32 @@ static int kernel_set_device(struct wgdevice *dev)
 
 out:
 	ret = -errno;
+	if (wgdata.wgd_interface) {
+		if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_H1)
+			free(wg_iface->i_init_packet_magic_header);
+		if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_H2)
+			free(wg_iface->i_response_packet_magic_header);
+		if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_H3)
+			free(wg_iface->i_underload_packet_magic_header);
+		if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_H4)
+			free(wg_iface->i_transport_packet_magic_header);
+		if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_I1)
+			free(wg_iface->i_i1);
+		if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_I2)
+			free(wg_iface->i_i2);
+		if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_I3)
+			free(wg_iface->i_i3);
+		if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_I4)
+			free(wg_iface->i_i4);
+		if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_I5)
+			free(wg_iface->i_i5);
+		if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_J1)
+			free(wg_iface->i_j1);
+		if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_J2)
+			free(wg_iface->i_j2);
+		if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_J3)
+			free(wg_iface->i_j3);
+	}
 	free(wgdata.wgd_interface);
 	return ret;
 }

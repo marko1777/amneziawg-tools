@@ -548,25 +548,25 @@ static int parse_device(const struct nlattr *attr, void *data)
 		}
 		break;
 	case WGDEVICE_A_H1:
-		if (!mnl_attr_validate(attr, MNL_TYPE_U32)) {
+		if (!mnl_attr_validate(attr, MNL_TYPE_STRING)) {
 			device->init_packet_magic_header = strdup(mnl_attr_get_str(attr));
 			device->flags |= WGDEVICE_HAS_H1;
 		}
 		break;
 	case WGDEVICE_A_H2:
-		if (!mnl_attr_validate(attr, MNL_TYPE_U32)) {
+		if (!mnl_attr_validate(attr, MNL_TYPE_STRING)) {
 			device->response_packet_magic_header = strdup(mnl_attr_get_str(attr));
 			device->flags |= WGDEVICE_HAS_H2;
 		}
 		break;
 	case WGDEVICE_A_H3:
-		if (!mnl_attr_validate(attr, MNL_TYPE_U32)) {
+		if (!mnl_attr_validate(attr, MNL_TYPE_STRING)) {
 			device->underload_packet_magic_header = strdup(mnl_attr_get_str(attr));
 			device->flags |= WGDEVICE_HAS_H3;
 		}
 		break;
 	case WGDEVICE_A_H4:
-		if (!mnl_attr_validate(attr, MNL_TYPE_U32)) {
+		if (!mnl_attr_validate(attr, MNL_TYPE_STRING)) {
 			device->transport_packet_magic_header = strdup(mnl_attr_get_str(attr));
 			device->flags |= WGDEVICE_HAS_H4;
 		}
