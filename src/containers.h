@@ -151,7 +151,6 @@ static inline void free_wgdevice(struct wgdevice *dev)
 		free(peer);
 	}
 
-	
 	free(dev->init_packet_magic_header);
 	free(dev->response_packet_magic_header);
 	free(dev->underload_packet_magic_header);
