@@ -19,7 +19,7 @@ PSK=$(echo ${ACCOUNT[2]}|tr -d '"')
 PSK_FILE=$(tempfile)
 echo "${PSK}" > "${PSK_FILE}"
 
-awg set "${INTERFACE_NAME}" peer "${PUBLIC_KEY}" allowed-ips "${ALLOWED_IPS}" endpoint "${ENDPOINT}" allowed-ips "${ALLOWED_IPS}" preshared-key "${PSK_FILE}" awg "${AWG}"
+awg set "${INTERFACE_NAME}" peer "${PUBLIC_KEY}" allowed-ips "${ALLOWED_IPS}" endpoint "${ENDPOINT}" preshared-key "${PSK_FILE}" advanced-security "${AWG}"
 EXIT_CODE=$?
 
 rm -f "{$PSK_FILE}"

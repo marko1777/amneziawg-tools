@@ -308,18 +308,30 @@ static void dump_print(struct wgdevice *device, bool with_interface)
 	printf("%u\t", device->response_packet_junk_size);
 	printf("%u\t", device->cookie_reply_packet_junk_size);
 	printf("%u\t", device->transport_packet_junk_size);
-	printf("%s\t", device->init_packet_magic_header);
-	printf("%s\t", device->response_packet_magic_header);
-	printf("%s\t", device->underload_packet_magic_header);
-	printf("%s\t", device->transport_packet_magic_header);
-	printf("%s\t", device->i1);
-	printf("%s\t", device->i2);
-	printf("%s\t", device->i3);
-	printf("%s\t", device->i4);
-	printf("%s\t", device->i5);
-	printf("%s\t", device->j1);
-	printf("%s\t", device->j2);
-	printf("%s\t", device->j3);
+	fputs(device->init_packet_magic_header ? device->init_packet_magic_header : "(null)", stdout);
+	fputc('\t', stdout);
+	fputs(device->response_packet_magic_header ? device->response_packet_magic_header : "(null)", stdout);
+	fputc('\t', stdout);
+	fputs(device->underload_packet_magic_header ? device->underload_packet_magic_header : "(null)", stdout);
+	fputc('\t', stdout);
+	fputs(device->transport_packet_magic_header ? device->transport_packet_magic_header : "(null)", stdout);
+	fputc('\t', stdout);
+	fputs(device->i1 ? device->i1 : "(null)", stdout);
+	fputc('\t', stdout);
+	fputs(device->i2 ? device->i2 : "(null)", stdout);
+	fputc('\t', stdout);
+	fputs(device->i3 ? device->i3 : "(null)", stdout);
+	fputc('\t', stdout);
+	fputs(device->i4 ? device->i4 : "(null)", stdout);
+	fputc('\t', stdout);
+	fputs(device->i5 ? device->i5 : "(null)", stdout);
+	fputc('\t', stdout);
+	fputs(device->j1 ? device->j1 : "(null)", stdout);
+	fputc('\t', stdout);
+	fputs(device->j2 ? device->j2 : "(null)", stdout);
+	fputc('\t', stdout);
+	fputs(device->j3 ? device->j3 : "(null)", stdout);
+	fputc('\t', stdout);
 	printf("%u\t", device->itime);
 
 	if (device->fwmark)
@@ -373,83 +385,83 @@ static bool ugly_print(struct wgdevice *device, const char *param, bool with_int
 			printf("0x%x\n", device->fwmark);
 		else
 			printf("off\n");
-	} else if(!strcmp(param, "jc")) {
+	} else if (!strcmp(param, "jc")) {
 		if (with_interface)
 			printf("%s\t", device->name);
 		printf("%u\n", device->junk_packet_count);
-	 } else if(!strcmp(param, "jmin")) {
+	 } else if (!strcmp(param, "jmin")) {
 		if (with_interface)
 			printf("%s\t", device->name);
 		printf("%u\n", device->junk_packet_min_size);
-	 } else if(!strcmp(param, "jmax")) {
+	 } else if (!strcmp(param, "jmax")) {
 		if (with_interface)
 			printf("%s\t", device->name);
 		printf("%u\n", device->junk_packet_max_size);
-	 } else if(!strcmp(param, "s1")) {
+	 } else if (!strcmp(param, "s1")) {
 		if (with_interface)
 			printf("%s\t", device->name);
 		printf("%u\n", device->init_packet_junk_size);
-	 } else if(!strcmp(param, "s2")) {
+	 } else if (!strcmp(param, "s2")) {
 		if (with_interface)
 			printf("%s\t", device->name);
 		printf("%u\n", device->response_packet_junk_size);
-	 } else if(!strcmp(param, "s3")) {
+	 } else if (!strcmp(param, "s3")) {
 		if (with_interface)
 			printf("%s\t", device->name);
 		printf("%u\n", device->cookie_reply_packet_junk_size);
-	 } else if(!strcmp(param, "s4")) {
+	 } else if (!strcmp(param, "s4")) {
 		if (with_interface)
 			printf("%s\t", device->name);
 		printf("%u\n", device->transport_packet_junk_size);
-	 } else if(!strcmp(param, "h1")) {
+	 } else if (!strcmp(param, "h1")) {
 		if (with_interface)
 			printf("%s\t", device->name);
 		printf("%s\n", device->init_packet_magic_header);
-	 } else if(!strcmp(param, "h2")) {
+	 } else if (!strcmp(param, "h2")) {
 		if (with_interface)
 			printf("%s\t", device->name);
 		printf("%s\n", device->response_packet_magic_header);
-	 } else if(!strcmp(param, "h3")) {
+	 } else if (!strcmp(param, "h3")) {
 		if (with_interface)
 			printf("%s\t", device->name);
 		printf("%s\n", device->underload_packet_magic_header);
-	 } else if(!strcmp(param, "h4")) {
+	 } else if (!strcmp(param, "h4")) {
 		if (with_interface)
 			printf("%s\t", device->name);
 		printf("%s\n", device->transport_packet_magic_header);
-	} else if(!strcmp(param, "i1")) {
+	} else if (!strcmp(param, "i1")) {
 		if (with_interface)
 			printf("%s\t", device->name);
 		printf("%s\n", device->i1);
-	} else if(!strcmp(param, "i2")) {
+	} else if (!strcmp(param, "i2")) {
 		if (with_interface)
 			printf("%s\t", device->name);
 		printf("%s\n", device->i2);
-	} else if(!strcmp(param, "i3")) {
+	} else if (!strcmp(param, "i3")) {
 		if (with_interface)
 			printf("%s\t", device->name);
 		printf("%s\n", device->i3);
-	} else if(!strcmp(param, "i4")) {
+	} else if (!strcmp(param, "i4")) {
 		if (with_interface)
 			printf("%s\t", device->name);
 		printf("%s\n", device->i4);
-	} else if(!strcmp(param, "i5")) {
+	} else if (!strcmp(param, "i5")) {
 		if (with_interface)
 			printf("%s\t", device->name);
 		printf("%s\n", device->i5);
-	} else if(!strcmp(param, "j1")) {
+	} else if (!strcmp(param, "j1")) {
 		if (with_interface)
 			printf("%s\t", device->name);
 		printf("%s\n", device->j1);
-	} else if(!strcmp(param, "j2")) {
+	} else if (!strcmp(param, "j2")) {
 		if (with_interface)
 			printf("%s\t", device->name);
 		printf("%s\n", device->j2);
-	} else if(!strcmp(param, "j3")) {
+	} else if (!strcmp(param, "j3")) {
 		if (with_interface)
 			printf("%s\t", device->name);
 		printf("%s\n", device->j3);
-	} else if(!strcmp(param, "itime")) {
+	} else if (!strcmp(param, "itime")) {
 		if (with_interface)
 			printf("%s\t", device->name);
 		printf("%u\n", device->itime);

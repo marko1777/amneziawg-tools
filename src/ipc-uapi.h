@@ -251,49 +251,101 @@ static int userspace_get_device(struct wgdevice **out, const char *iface)
 			dev->flags |= WGDEVICE_HAS_S4;
 		} else if(!peer && !strcmp(key, "h1")) {
 			dev->init_packet_magic_header = strdup(value);
+			if (!dev->init_packet_magic_header) {
+				ret = -ENOMEM;
+				goto err;
+			}
+
 			dev->flags |= WGDEVICE_HAS_H1;
 		} else if(!peer && !strcmp(key, "h2")) {
 			dev->response_packet_magic_header = strdup(value);
+			if (!dev->response_packet_magic_header) {
+				ret = -ENOMEM;
+				goto err;
+			}
+
 			dev->flags |= WGDEVICE_HAS_H2;
 		} else if(!peer && !strcmp(key, "h3")) {
 			dev->underload_packet_magic_header = strdup(value);
+			if (!dev->underload_packet_magic_header) {
+				ret = -ENOMEM;
+				goto err;
+			}
+
 			dev->flags |= WGDEVICE_HAS_H3;
 		} else if(!peer && !strcmp(key, "h4")) {
 			dev->transport_packet_magic_header = strdup(value);
+			if (!dev->transport_packet_magic_header) {
+				ret = -ENOMEM;
+				goto err;
+			}
+
 			dev->flags |= WGDEVICE_HAS_H4;
 		} else if (!peer && !strcmp(key, "i1")) {
 			dev->i1 = strdup(value);
+			if (!dev->i1) {
+				ret = -ENOMEM;
+				goto err;
+			}
+
 			dev->flags |= WGDEVICE_HAS_I1;
-		}
-		else if (!peer && !strcmp(key, "i2")) {
+		} else if (!peer && !strcmp(key, "i2")) {
 			dev->i2 = strdup(value);
+			if (!dev->i2) {
+				ret = -ENOMEM;
+				goto err;
+			}
+
 			dev->flags |= WGDEVICE_HAS_I2;
-		}
-		else if (!peer && !strcmp(key, "i3")) {
+		} else if (!peer && !strcmp(key, "i3")) {
 			dev->i3 = strdup(value);
+			if (!dev->i3) {
+				ret = -ENOMEM;
+				goto err;
+			}
+
 			dev->flags |= WGDEVICE_HAS_I3;
-		}
-		else if (!peer && !strcmp(key, "i4")) {
+		} else if (!peer && !strcmp(key, "i4")) {
 			dev->i4 = strdup(value);
+			if (!dev->i4) {
+				ret = -ENOMEM;
+				goto err;
+			}
+
 			dev->flags |= WGDEVICE_HAS_I4;
-		}
-		else if (!peer && !strcmp(key, "i5")) {
+		} else if (!peer && !strcmp(key, "i5")) {
 			dev->i5 = strdup(value);
+			if (!dev->i5) {
+				ret = -ENOMEM;
+				goto err;
+			}
+
 			dev->flags |= WGDEVICE_HAS_I5;
-		}
-		else if (!peer && !strcmp(key, "j1")) {
+		} else if (!peer && !strcmp(key, "j1")) {
 			dev->j1 = strdup(value);
+			if (!dev->j1) {
+				ret = -ENOMEM;
+				goto err;
+			}
+
 			dev->flags |= WGDEVICE_HAS_J1;
-		}
-		else if (!peer && !strcmp(key, "j2")) {
+		} else if (!peer && !strcmp(key, "j2")) {
 			dev->j2 = strdup(value);
+			if (!dev->j2) {
+				ret = -ENOMEM;
+				goto err;
+			}
+
 			dev->flags |= WGDEVICE_HAS_J2;
-		}
-		else if (!peer && !strcmp(key, "j3")) {
+		} else if (!peer && !strcmp(key, "j3")) {
 			dev->j3 = strdup(value);
+			if (!dev->j3) {
+				ret = -ENOMEM;
+				goto err;
+			}
+
 			dev->flags |= WGDEVICE_HAS_J3;
-		}
-		else if (!peer && !strcmp(key, "itime")) {
+		} else if (!peer && !strcmp(key, "itime")) {
 			dev->itime = NUM(0xffffffffU);
 			dev->flags |= WGDEVICE_HAS_ITIME;
 		} else if (!strcmp(key, "public_key")) {

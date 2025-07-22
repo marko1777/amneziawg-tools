@@ -550,86 +550,137 @@ static int parse_device(const struct nlattr *attr, void *data)
 	case WGDEVICE_A_H1:
 		if (!mnl_attr_validate(attr, MNL_TYPE_STRING)) {
 			device->init_packet_magic_header = strdup(mnl_attr_get_str(attr));
+			if (!device->init_packet_magic_header) {
+				perror("strdup");
+				return MNL_CB_ERROR;
+			}
+
 			device->flags |= WGDEVICE_HAS_H1;
 		}
 		break;
 	case WGDEVICE_A_H2:
 		if (!mnl_attr_validate(attr, MNL_TYPE_STRING)) {
 			device->response_packet_magic_header = strdup(mnl_attr_get_str(attr));
+			if (!device->response_packet_magic_header) {
+				perror("strdup");
+				return MNL_CB_ERROR;
+			}
+
 			device->flags |= WGDEVICE_HAS_H2;
 		}
 		break;
 	case WGDEVICE_A_H3:
 		if (!mnl_attr_validate(attr, MNL_TYPE_STRING)) {
 			device->underload_packet_magic_header = strdup(mnl_attr_get_str(attr));
+			if (!device->underload_packet_magic_header) {
+				perror("strdup");
+				return MNL_CB_ERROR;
+			}
+
 			device->flags |= WGDEVICE_HAS_H3;
 		}
 		break;
 	case WGDEVICE_A_H4:
 		if (!mnl_attr_validate(attr, MNL_TYPE_STRING)) {
 			device->transport_packet_magic_header = strdup(mnl_attr_get_str(attr));
+			if (!device->transport_packet_magic_header) {
+				perror("strdup");
+				return MNL_CB_ERROR;
+			}
+
 			device->flags |= WGDEVICE_HAS_H4;
 		}
 		break;
 	case WGDEVICE_A_I1:
-		if (!mnl_attr_validate(attr, MNL_TYPE_STRING))
-		{
+		if (!mnl_attr_validate(attr, MNL_TYPE_STRING)) {
 			device->i1 = strdup(mnl_attr_get_str(attr));
+			if (!device->i1) {
+				perror("strdup");
+				return MNL_CB_ERROR;
+			}
+
 			device->flags |= WGDEVICE_HAS_I1;
 		}
 		break;
 	case WGDEVICE_A_I2:
-		if (!mnl_attr_validate(attr, MNL_TYPE_STRING))
-		{
+		if (!mnl_attr_validate(attr, MNL_TYPE_STRING)) {
 			device->i2 = strdup(mnl_attr_get_str(attr));
+			if (!device->i2) {
+				perror("strdup");
+				return MNL_CB_ERROR;
+			}
+
 			device->flags |= WGDEVICE_HAS_I2;
 		}
 		break;
 	case WGDEVICE_A_I3:
-		if (!mnl_attr_validate(attr, MNL_TYPE_STRING))
-		{
+		if (!mnl_attr_validate(attr, MNL_TYPE_STRING)) {
 			device->i3 = strdup(mnl_attr_get_str(attr));
+			if (!device->i3) {
+				perror("strdup");
+				return MNL_CB_ERROR;
+			}
+
 			device->flags |= WGDEVICE_HAS_I3;
 		}
 		break;
 	case WGDEVICE_A_I4:
-		if (!mnl_attr_validate(attr, MNL_TYPE_STRING))
-		{
+		if (!mnl_attr_validate(attr, MNL_TYPE_STRING)) {
 			device->i4 = strdup(mnl_attr_get_str(attr));
+			if (!device->i4) {
+				perror("strdup");
+				return MNL_CB_ERROR;
+			}
+
 			device->flags |= WGDEVICE_HAS_I4;
 		}
 		break;
 	case WGDEVICE_A_I5:
-		if (!mnl_attr_validate(attr, MNL_TYPE_STRING))
-		{
+		if (!mnl_attr_validate(attr, MNL_TYPE_STRING)) {
 			device->i5 = strdup(mnl_attr_get_str(attr));
+			if (!device->i5) {
+				perror("strdup");
+				return MNL_CB_ERROR;
+			}
+
 			device->flags |= WGDEVICE_HAS_I5;
 		}
 		break;
 	case WGDEVICE_A_J1:
-		if (!mnl_attr_validate(attr, MNL_TYPE_STRING))
-		{
+		if (!mnl_attr_validate(attr, MNL_TYPE_STRING)) {
 			device->j1 = strdup(mnl_attr_get_str(attr));
+			if (!device->j1) {
+				perror("strdup");
+				return MNL_CB_ERROR;
+			}
+
 			device->flags |= WGDEVICE_HAS_J1;
 		}
 		break;
 	case WGDEVICE_A_J2:
-		if (!mnl_attr_validate(attr, MNL_TYPE_STRING))
-		{
+		if (!mnl_attr_validate(attr, MNL_TYPE_STRING)) {
 			device->j2 = strdup(mnl_attr_get_str(attr));
+			if (!device->j2) {
+				perror("strdup");
+				return MNL_CB_ERROR;
+			}
+
 			device->flags |= WGDEVICE_HAS_J2;
 		}
 		break;
 	case WGDEVICE_A_J3:
-		if (!mnl_attr_validate(attr, MNL_TYPE_STRING))
-		{
+		if (!mnl_attr_validate(attr, MNL_TYPE_STRING)) {
 			device->j3 = strdup(mnl_attr_get_str(attr));
+			if (!device->j3) {
+				perror("strdup");
+				return MNL_CB_ERROR;
+			}
+
 			device->flags |= WGDEVICE_HAS_J3;
 		}
 		break;
 	case WGDEVICE_A_ITIME:
-		if (!mnl_attr_validate(attr, MNL_TYPE_U32))
-		{
+		if (!mnl_attr_validate(attr, MNL_TYPE_U32)) {
 			device->itime = mnl_attr_get_u32(attr);
 			device->flags |= WGDEVICE_HAS_ITIME;
 		}

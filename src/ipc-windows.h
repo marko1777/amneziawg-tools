@@ -673,18 +673,30 @@ static int kernel_set_device(struct wgdevice *dev)
 out:
 	ret = -errno;
 	if (wg_iface) {
-		free(wg_iface->InitPacketMagicHeader);
-		free(wg_iface->ResponsePacketMagicHeader);
-		free(wg_iface->UnderloadPacketMagicHeader);
-		free(wg_iface->TransportPacketMagicHeader);
-		free(wg_iface->I1);
-		free(wg_iface->I2);
-		free(wg_iface->I3);
-		free(wg_iface->I4);
-		free(wg_iface->I5);
-		free(wg_iface->J1);
-		free(wg_iface->J2);
-		free(wg_iface->J3);
+		if (wg_iface->InitPacketMagicHeader)
+			free(wg_iface->InitPacketMagicHeader);
+		if (wg_iface->ResponsePacketMagicHeader)
+			free(wg_iface->ResponsePacketMagicHeader);
+		if (wg_iface->UnderloadPacketMagicHeader)
+			free(wg_iface->UnderloadPacketMagicHeader);
+		if (wg_iface->TransportPacketMagicHeader)
+			free(wg_iface->TransportPacketMagicHeader);
+		if (wg_iface->I1)
+			free(wg_iface->I1);
+		if (wg_iface->I2)
+			free(wg_iface->I2);
+		if (wg_iface->I3)
+			free(wg_iface->I3);
+		if (wg_iface->I4)
+			free(wg_iface->I4);
+		if (wg_iface->I5)
+			free(wg_iface->I5);
+		if (wg_iface->J1)
+			free(wg_iface->J1);
+		if (wg_iface->J2)
+			free(wg_iface->J2);
+		if (wg_iface->J3)
+			free(wg_iface->J3);
 	}
 	free(wg_iface);
 	CloseHandle(handle);
