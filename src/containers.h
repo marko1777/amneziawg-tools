@@ -9,6 +9,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
 #include <sys/socket.h>
 #include <net/if.h>
@@ -165,6 +166,14 @@ static inline void free_wgdevice(struct wgdevice *dev)
 	free(dev->j3);
 
 	free(dev);
+}
+
+static inline int contains_hyphen(const char *str)
+{
+	if (strchr(str, '-') != NULL)
+		return 1;
+
+	return 0;
 }
 
 #endif

@@ -8,6 +8,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include <errno.h>
 #include <string.h>
 #include <time.h>
@@ -24,6 +25,35 @@
 #include "netlink.h"
 
 #define IPC_SUPPORTS_KERNEL_INTERFACE
+
+void put_magic_header_attr(struct nlmsghdr *nlh, int attr_name, char *header_field)
+{
+	if (contains_hyphen(header_field)) {
+		mnl_attr_put_strz(nlh, attr_name, header_field);
+	} else {
+		uint32_t magic_header = strtoul(header_field, NULL, 10);
+		mnl_attr_put_u32(nlh, attr_name, magic_header);
+	}
+}
+
+#define GET_MAGIC_HEADER(attr, magic_header, attr_name)\
+	if (!mnl_attr_validate(attr, MNL_TYPE_STRING)) {\
+		magic_header = strdup(mnl_attr_get_str(attr));\
+		if (!magic_header) {\
+			perror("strdup");\
+			return MNL_CB_ERROR;\
+		}\
+		device->flags |= attr_name;\
+	} else if (!mnl_attr_validate(attr, MNL_TYPE_U32)) {\
+		uint32_t numeric_value = mnl_attr_get_u32(attr);\
+		magic_header = malloc(12);\
+		if (!magic_header) {\
+			perror("malloc");\
+			return MNL_CB_ERROR;\
+		}\
+		snprintf(magic_header, 12, "%u", numeric_value);\
+		device->flags |= attr_name;\
+	}
 
 #define SOCKET_BUFFER_SIZE (mnl_ideal_socket_buffer_size())
 
@@ -178,13 +208,13 @@ again:
 		if (dev->flags & WGDEVICE_HAS_S4)
 			mnl_attr_put_u16(nlh, WGDEVICE_A_S4, dev->transport_packet_junk_size);
 		if (dev->flags & WGDEVICE_HAS_H1)
-			mnl_attr_put_strz(nlh, WGDEVICE_A_H1, dev->init_packet_magic_header);
+			put_magic_header_attr(nlh, WGDEVICE_A_H1, dev->init_packet_magic_header);
 		if (dev->flags & WGDEVICE_HAS_H2)
-			mnl_attr_put_strz(nlh, WGDEVICE_A_H2, dev->response_packet_magic_header);
+			put_magic_header_attr(nlh, WGDEVICE_A_H2, dev->response_packet_magic_header);
 		if (dev->flags & WGDEVICE_HAS_H3)
-			mnl_attr_put_strz(nlh, WGDEVICE_A_H3, dev->underload_packet_magic_header);
+			put_magic_header_attr(nlh, WGDEVICE_A_H3, dev->underload_packet_magic_header);
 		if (dev->flags & WGDEVICE_HAS_H4)
-			mnl_attr_put_strz(nlh, WGDEVICE_A_H4, dev->transport_packet_magic_header);
+			put_magic_header_attr(nlh, WGDEVICE_A_H4, dev->transport_packet_magic_header);
 		if (dev->flags & WGDEVICE_HAS_I1)
 			mnl_attr_put_strz(nlh, WGDEVICE_A_I1, dev->i1);
 		if (dev->flags & WGDEVICE_HAS_I2)
@@ -548,48 +578,16 @@ static int parse_device(const struct nlattr *attr, void *data)
 		}
 		break;
 	case WGDEVICE_A_H1:
-		if (!mnl_attr_validate(attr, MNL_TYPE_STRING)) {
-			device->init_packet_magic_header = strdup(mnl_attr_get_str(attr));
-			if (!device->init_packet_magic_header) {
-				perror("strdup");
-				return MNL_CB_ERROR;
-			}
-
-			device->flags |= WGDEVICE_HAS_H1;
-		}
+		GET_MAGIC_HEADER(attr, device->init_packet_magic_header, WGDEVICE_HAS_H1);
 		break;
 	case WGDEVICE_A_H2:
-		if (!mnl_attr_validate(attr, MNL_TYPE_STRING)) {
-			device->response_packet_magic_header = strdup(mnl_attr_get_str(attr));
-			if (!device->response_packet_magic_header) {
-				perror("strdup");
-				return MNL_CB_ERROR;
-			}
-
-			device->flags |= WGDEVICE_HAS_H2;
-		}
+		GET_MAGIC_HEADER(attr, device->response_packet_magic_header, WGDEVICE_HAS_H2);
 		break;
 	case WGDEVICE_A_H3:
-		if (!mnl_attr_validate(attr, MNL_TYPE_STRING)) {
-			device->underload_packet_magic_header = strdup(mnl_attr_get_str(attr));
-			if (!device->underload_packet_magic_header) {
-				perror("strdup");
-				return MNL_CB_ERROR;
-			}
-
-			device->flags |= WGDEVICE_HAS_H3;
-		}
+		GET_MAGIC_HEADER(attr, device->underload_packet_magic_header, WGDEVICE_HAS_H3);
 		break;
 	case WGDEVICE_A_H4:
-		if (!mnl_attr_validate(attr, MNL_TYPE_STRING)) {
-			device->transport_packet_magic_header = strdup(mnl_attr_get_str(attr));
-			if (!device->transport_packet_magic_header) {
-				perror("strdup");
-				return MNL_CB_ERROR;
-			}
-
-			device->flags |= WGDEVICE_HAS_H4;
-		}
+		GET_MAGIC_HEADER(attr, device->transport_packet_magic_header, WGDEVICE_HAS_H4);
 		break;
 	case WGDEVICE_A_I1:
 		if (!mnl_attr_validate(attr, MNL_TYPE_STRING)) {
