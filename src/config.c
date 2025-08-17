@@ -421,7 +421,7 @@ err:
 static inline bool parse_awg_string(char **device_value, const char *name, const char *value) {
     size_t len = strlen(value);
 	if (!len) {
-		*device_value = NULL;
+		*device_value = "";
 		return true;
 	}
 
@@ -429,6 +429,7 @@ static inline bool parse_awg_string(char **device_value, const char *name, const
 		fprintf(stderr, "Unable to process string for: %s; longer than: %d\n", name, MAX_AWG_STRING_LEN);
 		return false;
     }
+
     *device_value = strdup(value);
 
 	if (*device_value == NULL) {
