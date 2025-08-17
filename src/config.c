@@ -421,7 +421,7 @@ err:
 static inline bool parse_awg_string(char **device_value, const char *name, const char *value) {
     size_t len = strlen(value);
 	if (!len) {
-		*device_value = "";
+		*device_value = NULL;
 		return true;
 	}
 

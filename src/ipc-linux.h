@@ -36,14 +36,7 @@ void put_magic_header_attr(struct nlmsghdr *nlh, int attr_name, char *header_fie
 }
 
 #define GET_MAGIC_HEADER(attr, magic_header, attr_name)\
-	if (!mnl_attr_validate(attr, MNL_TYPE_STRING)) {\
-		magic_header = strdup(mnl_attr_get_str(attr));\
-		if (!magic_header) {\
-			perror("strdup");\
-			return MNL_CB_ERROR;\
-		}\
-		device->flags |= attr_name;\
-	} else if (!mnl_attr_validate(attr, MNL_TYPE_U32)) {\
+	if (!mnl_attr_validate(attr, MNL_TYPE_U32)) {\
 		uint32_t numeric_value = mnl_attr_get_u32(attr);\
 		magic_header = malloc(12);\
 		if (!magic_header) {\
@@ -51,6 +44,13 @@ void put_magic_header_attr(struct nlmsghdr *nlh, int attr_name, char *header_fie
 			return MNL_CB_ERROR;\
 		}\
 		snprintf(magic_header, 12, "%u", numeric_value);\
+		device->flags |= attr_name;\
+	} else if (!mnl_attr_validate(attr, MNL_TYPE_STRING)) {\
+		magic_header = strdup(mnl_attr_get_str(attr));\
+		if (!magic_header) {\
+			perror("strdup");\
+			return MNL_CB_ERROR;\
+		}\
 		device->flags |= attr_name;\
 	}
 
