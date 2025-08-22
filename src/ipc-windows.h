@@ -345,28 +345,6 @@ static int kernel_get_device(struct wgdevice **device, const char *iface)
 		memcpy(dev->i5, wg_iface->I5, i5_size);
 		dev->flags |= WGDEVICE_HAS_I5;
 	}
-	if (wg_iface->Flags & WG_IOCTL_INTERFACE_J1) {
-		const size_t j1_size = strlen((char*)wg_iface->J1) + 1;
-		dev->j1              = (char*)malloc(j1_size);
-		memcpy(dev->j1, wg_iface->J1, j1_size);
-		dev->flags |= WGDEVICE_HAS_J1;
-	}
-	if (wg_iface->Flags & WG_IOCTL_INTERFACE_J2) {
-		const size_t j2_size = strlen((char*)wg_iface->J2) + 1;
-		dev->j2              = (char*)malloc(j2_size);
-		memcpy(dev->j2, wg_iface->J2, j2_size);
-		dev->flags |= WGDEVICE_HAS_J2;
-	}
-	if (wg_iface->Flags & WG_IOCTL_INTERFACE_J3) {
-		const size_t j3_size = strlen((char*)wg_iface->J3) + 1;
-		dev->j3              = (char*)malloc(j3_size);
-		memcpy(dev->j3, wg_iface->J3, j3_size);
-		dev->flags |= WGDEVICE_HAS_J3;
-	}
-	if (wg_iface->Flags & WG_IOCTL_INTERFACE_ITIME) {
-		dev->itime = wg_iface->Itime;
-		dev->flags |= WGDEVICE_HAS_ITIME;
-	}
 
 	wg_peer = buf + sizeof(WG_IOCTL_INTERFACE);
 	for (ULONG i = 0; i < wg_iface->PeersCount; ++i) {
@@ -586,32 +564,6 @@ static int kernel_set_device(struct wgdevice *dev)
 		memcpy(wg_iface->I5, dev->i5, i5_size);
 		wg_iface->Flags |= WG_IOCTL_INTERFACE_I5;
 	}
-	if (dev->flags & WGDEVICE_HAS_J1)
-	{
-		const size_t j1_size = strlen(dev->j1) + 1;
-		wg_iface->J1         = (UCHAR*)malloc(j1_size);
-		memcpy(wg_iface->J1, dev->j1, j1_size);
-		wg_iface->Flags |= WG_IOCTL_INTERFACE_J1;
-	}
-	if (dev->flags & WGDEVICE_HAS_J2)
-	{
-		const size_t j2_size = strlen(dev->j2) + 1;
-		wg_iface->J2         = (UCHAR*)malloc(j2_size);
-		memcpy(wg_iface->J2, dev->j2, j2_size);
-		wg_iface->Flags |= WG_IOCTL_INTERFACE_J2;
-	}
-	if (dev->flags & WGDEVICE_HAS_J3)
-	{
-		const size_t j3_size = strlen(dev->j3) + 1;
-		wg_iface->J3         = (UCHAR*)malloc(j3_size);
-		memcpy(wg_iface->J3, dev->j3, j3_size);
-		wg_iface->Flags |= WG_IOCTL_INTERFACE_J3;
-	}
-	if (dev->flags & WGDEVICE_HAS_ITIME)
-	{
-		wg_iface->Itime = dev->itime;
-		wg_iface->Flags |= WG_IOCTL_INTERFACE_ITIME;
-	}
 
 	peer_count = 0;
 	wg_peer = (void *)wg_iface + sizeof(WG_IOCTL_INTERFACE);
@@ -691,12 +643,6 @@ out:
 			free(wg_iface->I4);
 		if (wg_iface->I5)
 			free(wg_iface->I5);
-		if (wg_iface->J1)
-			free(wg_iface->J1);
-		if (wg_iface->J2)
-			free(wg_iface->J2);
-		if (wg_iface->J3)
-			free(wg_iface->J3);
 	}
 	free(wg_iface);
 	CloseHandle(handle);

@@ -202,7 +202,7 @@ static char *bytes(uint64_t b)
 static const char *COMMAND_NAME;
 static void show_usage(void)
 {
-	fprintf(stderr, "Usage: %s %s { <interface> | all | interfaces } [public-key | private-key | listen-port | fwmark | peers | preshared-keys | endpoints | allowed-ips | latest-handshakes | transfer | persistent-keepalive | dump | jc | jmin | jmax | s1 | s2 | s3 | s4 | h1 | h2 | h3 | h4 | i1 | i2 | i3 | i4 | i5 | j1 | j2 | j3 | itime]\n", PROG_NAME, COMMAND_NAME);
+	fprintf(stderr, "Usage: %s %s { <interface> | all | interfaces } [public-key | private-key | listen-port | fwmark | peers | preshared-keys | endpoints | allowed-ips | latest-handshakes | transfer | persistent-keepalive | dump | jc | jmin | jmax | s1 | s2 | s3 | s4 | h1 | h2 | h3 | h4 | i1 | i2 | i3 | i4 | i5]\n", PROG_NAME, COMMAND_NAME);
 }
 
 static void pretty_print(struct wgdevice *device)
@@ -252,14 +252,6 @@ static void pretty_print(struct wgdevice *device)
 		terminal_printf("  " TERMINAL_BOLD "i4" TERMINAL_RESET ": %s\n", device->i4);
 	if (device->i5)
 		terminal_printf("  " TERMINAL_BOLD "i5" TERMINAL_RESET ": %s\n", device->i5);
-	if (device->j1)
-		terminal_printf("  " TERMINAL_BOLD "j1" TERMINAL_RESET ": %s\n", device->j1);
-	if (device->j2)
-		terminal_printf("  " TERMINAL_BOLD "j2" TERMINAL_RESET ": %s\n", device->j2);
-	if (device->j3)
-		terminal_printf("  " TERMINAL_BOLD "j3" TERMINAL_RESET ": %s\n", device->j3);
-	if (device->itime)
-		terminal_printf("  " TERMINAL_BOLD "itime" TERMINAL_RESET ": %u\n", device->itime);
 
 	if (device->first_peer) {
 		sort_peers(device);
@@ -326,13 +318,6 @@ static void dump_print(struct wgdevice *device, bool with_interface)
 	fputc('\t', stdout);
 	fputs(device->i5 ? device->i5 : "(null)", stdout);
 	fputc('\t', stdout);
-	fputs(device->j1 ? device->j1 : "(null)", stdout);
-	fputc('\t', stdout);
-	fputs(device->j2 ? device->j2 : "(null)", stdout);
-	fputc('\t', stdout);
-	fputs(device->j3 ? device->j3 : "(null)", stdout);
-	fputc('\t', stdout);
-	printf("%u\t", device->itime);
 
 	if (device->fwmark)
 		printf("0x%x\n", device->fwmark);
@@ -449,22 +434,6 @@ static bool ugly_print(struct wgdevice *device, const char *param, bool with_int
 		if (with_interface)
 			printf("%s\t", device->name);
 		printf("%s\n", device->i5);
-	} else if (!strcmp(param, "j1")) {
-		if (with_interface)
-			printf("%s\t", device->name);
-		printf("%s\n", device->j1);
-	} else if (!strcmp(param, "j2")) {
-		if (with_interface)
-			printf("%s\t", device->name);
-		printf("%s\n", device->j2);
-	} else if (!strcmp(param, "j3")) {
-		if (with_interface)
-			printf("%s\t", device->name);
-		printf("%s\n", device->j3);
-	} else if (!strcmp(param, "itime")) {
-		if (with_interface)
-			printf("%s\t", device->name);
-		printf("%u\n", device->itime);
 	 } else if (!strcmp(param, "endpoints")) {
 		for_each_wgpeer(device, peer) {
 			if (with_interface)

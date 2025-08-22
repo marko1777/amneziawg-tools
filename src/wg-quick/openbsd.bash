@@ -85,11 +85,7 @@ parse_options() {
 			I2);&
 			I3);&
 			I4);&
-			I5);&
-			J1);&
-			J2);&
-			J3);&
-			Itime) IS_AWG_ON=1;;
+			I5) IS_AWG_ON=1;;
 			esac
 		fi
 		WG_CONFIG+="$line"$'\n'

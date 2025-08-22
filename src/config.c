@@ -25,7 +25,6 @@
 // Keys that should be not stripped of whitespace
 static const char *awg_special_handshake_keys[] = {
 	"I1", "I2", "I3", "I4", "I5",
-	"J1", "J2", "J3",
 	NULL
 };
 
@@ -616,22 +615,6 @@ static bool process_line(struct config_ctx *ctx, const char *line)
 			ret = parse_awg_string(&ctx->device->i5, "I5", value);
 			if (ret)
 				ctx->device->flags |= WGDEVICE_HAS_I5;
-		} else if (key_match("J1")) {
-			ret = parse_awg_string(&ctx->device->j1, "J1", value);
-			if (ret)
-				ctx->device->flags |= WGDEVICE_HAS_J1;
-		} else if (key_match("J2")) {
-			ret = parse_awg_string(&ctx->device->j2, "J2", value);
-			if (ret)
-				ctx->device->flags |= WGDEVICE_HAS_J2;
-		} else if (key_match("J3")) {
-			ret = parse_awg_string(&ctx->device->j3, "J3", value);
-			if (ret)
-				ctx->device->flags |= WGDEVICE_HAS_J3;
-		} else if (key_match("Itime")) {
-			ret = parse_uint32(&ctx->device->itime, "Itime", value);
-			if (ret)
-				ctx->device->flags |= WGDEVICE_HAS_ITIME;
 		} else {
 			goto error;
 		}
@@ -938,34 +921,6 @@ struct wgdevice *config_read_cmd(const char *argv[], int argc)
 				goto error;
 
 			device->flags |= WGDEVICE_HAS_I5;
-			argv += 2;
-			argc -= 2;
-		} else if (!strcmp(argv[0], "j1") && argc >= 2 && !peer) {
-			if (!parse_awg_string(&device->j1, "j1", argv[1]))
-				goto error;
-
-			device->flags |= WGDEVICE_HAS_J1;
-			argv += 2;
-			argc -= 2;
-		} else if (!strcmp(argv[0], "j2") && argc >= 2 && !peer) {
-			if (!parse_awg_string(&device->j2, "j2", argv[1]))
-				goto error;
-
-			device->flags |= WGDEVICE_HAS_J2;
-			argv += 2;
-			argc -= 2;
-		} else if (!strcmp(argv[0], "j3") && argc >= 2 && !peer) {
-			if (!parse_awg_string(&device->j3, "j3", argv[1]))
-				goto error;
-
-			device->flags |= WGDEVICE_HAS_J3;
-			argv += 2;
-			argc -= 2;
-		} else if (!strcmp(argv[0], "itime") && argc >= 2 && !peer) {
-			if (!parse_uint32(&device->itime, "itime", argv[1]))
-				goto error;
-
-			device->flags |= WGDEVICE_HAS_ITIME;
 			argv += 2;
 			argc -= 2;
 		} else if (!strcmp(argv[0], "peer") && argc >= 2) {

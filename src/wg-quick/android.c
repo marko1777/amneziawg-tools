@@ -1292,14 +1292,6 @@ static void parse_options(char **iface, char **config, unsigned int *mtu, char *
 				is_awg_on = true;
 			} else if (!strncasecmp(clean, "I5=", 3) && j > 4) {
 				is_awg_on = true;
-			} else if (!strncasecmp(clean, "J1=", 3) && j > 4) {
-				is_awg_on = true;
-			} else if (!strncasecmp(clean, "J2=", 3) && j > 4) {
-				is_awg_on = true;
-			} else if (!strncasecmp(clean, "J3=", 3) && j > 4) {
-				is_awg_on = true;
-			} else if (!strncasecmp(clean, "Itime=", 6) && j > 4) {
-				is_awg_on = true;
 			}
 		}
 		*config = concat_and_free(*config, "", line);

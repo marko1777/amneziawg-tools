@@ -95,14 +95,6 @@ static int userspace_set_device(struct wgdevice *dev)
 		fprintf(f, "i4=%s\n", dev->i4);
 	if (dev->flags & WGDEVICE_HAS_I5)
 		fprintf(f, "i5=%s\n", dev->i5);
-	if (dev->flags & WGDEVICE_HAS_J1)
-		fprintf(f, "j1=%s\n", dev->j1);
-	if (dev->flags & WGDEVICE_HAS_J2)
-		fprintf(f, "j2=%s\n", dev->j2);
-	if (dev->flags & WGDEVICE_HAS_J3)
-		fprintf(f, "j3=%s\n", dev->j3);
-	if (dev->flags & WGDEVICE_HAS_ITIME)
-		fprintf(f, "itime=%u\n", dev->itime);
 
 	for_each_wgpeer(dev, peer) {
 		key_to_hex(hex, peer->public_key);
@@ -332,33 +324,6 @@ static int userspace_get_device(struct wgdevice **out, const char *iface)
 			}
 
 			dev->flags |= WGDEVICE_HAS_I5;
-		} else if (!peer && !strcmp(key, "j1")) {
-			dev->j1 = strdup(value);
-			if (!dev->j1) {
-				ret = -ENOMEM;
-				goto err;
-			}
-
-			dev->flags |= WGDEVICE_HAS_J1;
-		} else if (!peer && !strcmp(key, "j2")) {
-			dev->j2 = strdup(value);
-			if (!dev->j2) {
-				ret = -ENOMEM;
-				goto err;
-			}
-
-			dev->flags |= WGDEVICE_HAS_J2;
-		} else if (!peer && !strcmp(key, "j3")) {
-			dev->j3 = strdup(value);
-			if (!dev->j3) {
-				ret = -ENOMEM;
-				goto err;
-			}
-
-			dev->flags |= WGDEVICE_HAS_J3;
-		} else if (!peer && !strcmp(key, "itime")) {
-			dev->itime = NUM(0xffffffffU);
-			dev->flags |= WGDEVICE_HAS_ITIME;
 		} else if (!strcmp(key, "public_key")) {
 			struct wgpeer *new_peer = calloc(1, sizeof(*new_peer));
 

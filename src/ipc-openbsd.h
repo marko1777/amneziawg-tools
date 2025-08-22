@@ -222,39 +222,6 @@ static int kernel_get_device(struct wgdevice **device, const char *iface)
 		dev->flags |= WGDEVICE_HAS_I5;
 	}
 
-	if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_J1)
-	{
-		dev->j1 = strdup(wg_iface->i_j1);
-		if (!dev->j1)
-			goto out;
-
-		dev->flags |= WGDEVICE_HAS_J1;
-	}
-
-	if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_J2)
-	{
-		dev->j2 = strdup(wg_iface->i_j2);
-		if (!dev->j2)
-			goto out;
-
-		dev->flags |= WGDEVICE_HAS_J2;
-	}
-
-	if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_J3)
-	{
-		dev->j3 = strdup(wg_iface->i_j3);
-		if (!dev->j3)
-			goto out;
-
-		dev->flags |= WGDEVICE_HAS_J3;
-	}
-
-	if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_ITIME)
-	{
-		dev->itime = wg_iface->i_itime;
-		dev->flags |= WGDEVICE_HAS_ITIME;
-	}
-
 	wg_peer = &wg_iface->i_peers[0];
 	for (size_t i = 0; i < wg_iface->i_peers_count; ++i) {
 		peer = calloc(1, sizeof(*peer));
@@ -479,39 +446,6 @@ static int kernel_set_device(struct wgdevice *dev)
 		wg_iface->i_flags |= WG_INTERFACE_DEVICE_HAS_I5;
 	}
 
-	if (dev->flags & WGDEVICE_HAS_J1)
-	{
-		wg_iface->i_j1 = strdup(dev->j1);
-		if (!wg_iface->i_j1)
-			goto out;
-
-		wg_iface->i_flags |= WG_INTERFACE_DEVICE_HAS_J1;
-	}
-
-	if (dev->flags & WGDEVICE_HAS_J2)
-	{
-		wg_iface->i_j2 = strdup(dev->j2);
-		if (!wg_iface->i_j2)
-			goto out;
-
-		wg_iface->i_flags |= WG_INTERFACE_DEVICE_HAS_J2;
-	}
-
-	if (dev->flags & WGDEVICE_HAS_J3)
-	{
-		wg_iface->i_j3 = strdup(dev->j3);
-		if (!wg_iface->i_j3)
-			goto out;
-
-		wg_iface->i_flags |= WG_INTERFACE_DEVICE_HAS_J3;
-	}
-
-	if (dev->flags & WGDEVICE_HAS_ITIME)
-	{
-		wg_iface->i_itime = dev->itime;
-		wg_iface->i_flags |= WG_INTERFACE_DEVICE_HAS_ITIME;
-	}
-
 	peer_count = 0;
 	wg_peer = &wg_iface->i_peers[0];
 	for_each_wgpeer(dev, peer) {
@@ -586,12 +520,6 @@ out:
 			free(wg_iface->i_i4);
 		if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_I5)
 			free(wg_iface->i_i5);
-		if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_J1)
-			free(wg_iface->i_j1);
-		if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_J2)
-			free(wg_iface->i_j2);
-		if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_J3)
-			free(wg_iface->i_j3);
 	}
 	free(wgdata.wgd_interface);
 	return ret;

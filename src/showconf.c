@@ -78,14 +78,6 @@ int showconf_main(int argc, const char *argv[])
 		printf("I4 = %s\n", device->i4);
 	if (device->flags & WGDEVICE_HAS_I5)
 		printf("I5 = %s\n", device->i5);
-	if (device->flags & WGDEVICE_HAS_J1)
-		printf("J1 = %s\n", device->j1);
-	if (device->flags & WGDEVICE_HAS_J2)
-		printf("J2 = %s\n", device->j2);
-	if (device->flags & WGDEVICE_HAS_J3)
-		printf("J3 = %s\n", device->j3);
-	if (device->flags & WGDEVICE_HAS_ITIME)
-		printf("Itime = %u\n", device->itime);
 
 	printf("\n");
 	for_each_wgpeer(device, peer) {

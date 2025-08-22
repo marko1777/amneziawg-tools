@@ -253,54 +253,6 @@ static int kernel_get_device(struct wgdevice **device, const char *ifname)
 			dev->flags |= WGDEVICE_HAS_I5;
 		}
 	}
-	if (nvlist_exists_binary(nvl_device, "j1"))
-	{
-		binary = nvlist_get_binary(nvl_device, "j1", &size);
-		if (binary && size < MAX_AWG_STRING_LEN)
-		{
-			dev->j1 = strdup((const char*)binary);
-			if (!dev->j1) {
-				ret = ENOMEM;
-				goto err;
-			}
-			dev->flags |= WGDEVICE_HAS_J1;
-		}
-	}
-	if (nvlist_exists_binary(nvl_device, "j2"))
-	{
-		binary = nvlist_get_binary(nvl_device, "j2", &size);
-		if (binary && size < MAX_AWG_STRING_LEN)
-		{
-			dev->j2 = strdup((const char*)binary);
-			if (!dev->j2) {
-				ret = ENOMEM;
-				goto err;
-			}
-			dev->flags |= WGDEVICE_HAS_J2;
-		}
-	}
-	if (nvlist_exists_binary(nvl_device, "j3"))
-	{
-		binary = nvlist_get_binary(nvl_device, "j3", &size);
-		if (binary && size < MAX_AWG_STRING_LEN)
-		{
-			dev->j3 = strdup((const char*)binary);
-			if (!dev->j3) {
-				ret = ENOMEM;
-				goto err;
-			}
-			dev->flags |= WGDEVICE_HAS_J3;
-		}
-	}
-	if (nvlist_exists_number(nvl_device, "itime"))
-	{
-		number = nvlist_get_number(nvl_device, "itime");
-		if (number <= UINT32_MAX)
-		{
-			dev->itime = number;
-			dev->flags |= WGDEVICE_HAS_ITIME;
-		}
-	}
 
 	if (nvlist_exists_number(nvl_device, "user-cookie")) {
 		number = nvlist_get_number(nvl_device, "user-cookie");
@@ -515,14 +467,6 @@ static int kernel_set_device(struct wgdevice *dev)
 		nvlist_add_binary(nvl_device, "i4", dev->i4, strlen(dev->i4) + 1);
 	if (dev->flags & WGDEVICE_HAS_I5)
 		nvlist_add_binary(nvl_device, "i5", dev->i5, strlen(dev->i5) + 1);
-	if (dev->flags & WGDEVICE_HAS_J1)
-		nvlist_add_binary(nvl_device, "j1", dev->j1, strlen(dev->j1) + 1);
-	if (dev->flags & WGDEVICE_HAS_J2)
-		nvlist_add_binary(nvl_device, "j2", dev->j2, strlen(dev->j2) + 1);
-	if (dev->flags & WGDEVICE_HAS_J3)
-		nvlist_add_binary(nvl_device, "j3", dev->j3, strlen(dev->j3) + 1);
-	if (dev->flags & WGDEVICE_HAS_ITIME)
-		nvlist_add_number(nvl_device, "itime", dev->itime);
 	if (dev->flags & WGDEVICE_HAS_FWMARK)
 		nvlist_add_number(nvl_device, "user-cookie", dev->fwmark);
 	if (dev->flags & WGDEVICE_REPLACE_PEERS)
