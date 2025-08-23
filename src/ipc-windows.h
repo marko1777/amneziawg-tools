@@ -292,19 +292,27 @@ static int kernel_get_device(struct wgdevice **device, const char *iface)
 		dev->flags |= WGDEVICE_HAS_S4;
 	}
 	if (wg_iface->Flags & WG_IOCTL_INTERFACE_H1) {
-		dev->init_packet_magic_header = wg_iface->InitPacketMagicHeader;
+		const size_t init_size = strlen((char*)wg_iface->InitPacketMagicHeader) + 1;
+		dev->init_packet_magic_header = (char*)malloc(init_size);
+		memcpy(dev->init_packet_magic_header, wg_iface->InitPacketMagicHeader, init_size);
 		dev->flags |= WGDEVICE_HAS_H1;
 	}
 	if (wg_iface->Flags & WG_IOCTL_INTERFACE_H2) {
-		dev->response_packet_magic_header = wg_iface->ResponsePacketMagicHeader;
+		const size_t response_size = strlen((char*)wg_iface->ResponsePacketMagicHeader) + 1;
+		dev->response_packet_magic_header = (char*)malloc(response_size);
+		memcpy(dev->response_packet_magic_header, wg_iface->ResponsePacketMagicHeader, response_size);
 		dev->flags |= WGDEVICE_HAS_H2;
 	}
 	if (wg_iface->Flags & WG_IOCTL_INTERFACE_H3) {
-		dev->underload_packet_magic_header = wg_iface->UnderloadPacketMagicHeader;
+		const size_t underload_size = strlen((char*)wg_iface->UnderloadPacketMagicHeader) + 1;
+		dev->underload_packet_magic_header = (char*)malloc(underload_size);
+		memcpy(dev->underload_packet_magic_header, wg_iface->UnderloadPacketMagicHeader, underload_size);
 		dev->flags |= WGDEVICE_HAS_H3;
 	}
 	if (wg_iface->Flags & WG_IOCTL_INTERFACE_H4) {
-		dev->transport_packet_magic_header = wg_iface->TransportPacketMagicHeader;
+		const size_t transport_size = strlen((char*)wg_iface->TransportPacketMagicHeader) + 1;
+		dev->transport_packet_magic_header = (char*)malloc(transport_size);
+		memcpy(dev->transport_packet_magic_header, wg_iface->TransportPacketMagicHeader, transport_size);
 		dev->flags |= WGDEVICE_HAS_H4;
 	}
 	if (wg_iface->Flags & WG_IOCTL_INTERFACE_I1) {
@@ -336,28 +344,6 @@ static int kernel_get_device(struct wgdevice **device, const char *iface)
 		dev->i5              = (char*)malloc(i5_size);
 		memcpy(dev->i5, wg_iface->I5, i5_size);
 		dev->flags |= WGDEVICE_HAS_I5;
-	}
-	if (wg_iface->Flags & WG_IOCTL_INTERFACE_J1) {
-		const size_t j1_size = strlen((char*)wg_iface->J1) + 1;
-		dev->j1              = (char*)malloc(j1_size);
-		memcpy(dev->j1, wg_iface->J1, j1_size);
-		dev->flags |= WGDEVICE_HAS_J1;
-	}
-	if (wg_iface->Flags & WG_IOCTL_INTERFACE_J2) {
-		const size_t j2_size = strlen((char*)wg_iface->J2) + 1;
-		dev->j2              = (char*)malloc(j2_size);
-		memcpy(dev->j2, wg_iface->J2, j2_size);
-		dev->flags |= WGDEVICE_HAS_J2;
-	}
-	if (wg_iface->Flags & WG_IOCTL_INTERFACE_J3) {
-		const size_t j3_size = strlen((char*)wg_iface->J3) + 1;
-		dev->j3              = (char*)malloc(j3_size);
-		memcpy(dev->j3, wg_iface->J3, j3_size);
-		dev->flags |= WGDEVICE_HAS_J3;
-	}
-	if (wg_iface->Flags & WG_IOCTL_INTERFACE_ITIME) {
-		dev->itime = wg_iface->Itime;
-		dev->flags |= WGDEVICE_HAS_ITIME;
 	}
 
 	wg_peer = buf + sizeof(WG_IOCTL_INTERFACE);
@@ -516,22 +502,30 @@ static int kernel_set_device(struct wgdevice *dev)
 	}
 
 	if (dev->flags & WGDEVICE_HAS_H1) {
-		wg_iface->InitPacketMagicHeader = dev->init_packet_magic_header;
+		const size_t init_size = strlen(dev->init_packet_magic_header) + 1;
+		wg_iface->InitPacketMagicHeader = (UCHAR*)malloc(init_size);
+		memcpy(wg_iface->InitPacketMagicHeader, dev->init_packet_magic_header, init_size);
 		wg_iface->Flags |= WG_IOCTL_INTERFACE_H1;
 	}
 
 	if (dev->flags & WGDEVICE_HAS_H2) {
-		wg_iface->ResponsePacketMagicHeader = dev->response_packet_magic_header;
+		const size_t response_size = strlen(dev->response_packet_magic_header) + 1;
+		wg_iface->ResponsePacketMagicHeader = (UCHAR*)malloc(response_size);
+		memcpy(wg_iface->ResponsePacketMagicHeader, dev->response_packet_magic_header, response_size);
 		wg_iface->Flags |= WG_IOCTL_INTERFACE_H2;
 	}
 
 	if (dev->flags & WGDEVICE_HAS_H3) {
-		wg_iface->UnderloadPacketMagicHeader = dev->underload_packet_magic_header;
+		const size_t underload_size = strlen(dev->underload_packet_magic_header) + 1;
+		wg_iface->UnderloadPacketMagicHeader = (UCHAR*)malloc(underload_size);
+		memcpy(wg_iface->UnderloadPacketMagicHeader, dev->underload_packet_magic_header, underload_size);
 		wg_iface->Flags |= WG_IOCTL_INTERFACE_H3;
 	}
 
 	if (dev->flags & WGDEVICE_HAS_H4) {
-		wg_iface->TransportPacketMagicHeader = dev->transport_packet_magic_header;
+		const size_t transport_size = strlen(dev->transport_packet_magic_header) + 1;
+		wg_iface->TransportPacketMagicHeader = (UCHAR*)malloc(transport_size);
+		memcpy(wg_iface->TransportPacketMagicHeader, dev->transport_packet_magic_header, transport_size);
 		wg_iface->Flags |= WG_IOCTL_INTERFACE_H4;
 	}
 
@@ -569,32 +563,6 @@ static int kernel_set_device(struct wgdevice *dev)
 		wg_iface->I5         = (UCHAR*)malloc(i5_size);
 		memcpy(wg_iface->I5, dev->i5, i5_size);
 		wg_iface->Flags |= WG_IOCTL_INTERFACE_I5;
-	}
-	if (dev->flags & WGDEVICE_HAS_J1)
-	{
-		const size_t j1_size = strlen(dev->j1) + 1;
-		wg_iface->J1         = (UCHAR*)malloc(j1_size);
-		memcpy(wg_iface->J1, dev->j1, j1_size);
-		wg_iface->Flags |= WG_IOCTL_INTERFACE_J1;
-	}
-	if (dev->flags & WGDEVICE_HAS_J2)
-	{
-		const size_t j2_size = strlen(dev->j2) + 1;
-		wg_iface->J2         = (UCHAR*)malloc(j2_size);
-		memcpy(wg_iface->J2, dev->j2, j2_size);
-		wg_iface->Flags |= WG_IOCTL_INTERFACE_J2;
-	}
-	if (dev->flags & WGDEVICE_HAS_J3)
-	{
-		const size_t j3_size = strlen(dev->j3) + 1;
-		wg_iface->J3         = (UCHAR*)malloc(j3_size);
-		memcpy(wg_iface->J3, dev->j3, j3_size);
-		wg_iface->Flags |= WG_IOCTL_INTERFACE_J3;
-	}
-	if (dev->flags & WGDEVICE_HAS_ITIME)
-	{
-		wg_iface->Itime = dev->itime;
-		wg_iface->Flags |= WG_IOCTL_INTERFACE_ITIME;
 	}
 
 	peer_count = 0;
@@ -656,6 +624,26 @@ static int kernel_set_device(struct wgdevice *dev)
 
 out:
 	ret = -errno;
+	if (wg_iface) {
+		if (wg_iface->InitPacketMagicHeader)
+			free(wg_iface->InitPacketMagicHeader);
+		if (wg_iface->ResponsePacketMagicHeader)
+			free(wg_iface->ResponsePacketMagicHeader);
+		if (wg_iface->UnderloadPacketMagicHeader)
+			free(wg_iface->UnderloadPacketMagicHeader);
+		if (wg_iface->TransportPacketMagicHeader)
+			free(wg_iface->TransportPacketMagicHeader);
+		if (wg_iface->I1)
+			free(wg_iface->I1);
+		if (wg_iface->I2)
+			free(wg_iface->I2);
+		if (wg_iface->I3)
+			free(wg_iface->I3);
+		if (wg_iface->I4)
+			free(wg_iface->I4);
+		if (wg_iface->I5)
+			free(wg_iface->I5);
+	}
 	free(wg_iface);
 	CloseHandle(handle);
 	return ret;

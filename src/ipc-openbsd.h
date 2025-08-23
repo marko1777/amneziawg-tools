@@ -146,77 +146,80 @@ static int kernel_get_device(struct wgdevice **device, const char *iface)
 	}
 
 	if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_H1) {
-		dev->init_packet_magic_header = wg_iface->i_init_packet_magic_header;
+		dev->init_packet_magic_header = strdup(wg_iface->i_init_packet_magic_header);
+		if (!dev->init_packet_magic_header)
+			goto out;
+
 		dev->flags |= WGDEVICE_HAS_H1;
 	}
 
 	if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_H2) {
-		dev->response_packet_magic_header = wg_iface->i_response_packet_magic_header;
+		dev->response_packet_magic_header = strdup(wg_iface->i_response_packet_magic_header);
+		if (!dev->response_packet_magic_header)
+			goto out;
+
 		dev->flags |= WGDEVICE_HAS_H2;
 	}
 
 	if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_H3) {
-		dev->underload_packet_magic_header = wg_iface->i_underload_packet_magic_header;
+		dev->underload_packet_magic_header = strdup(wg_iface->i_underload_packet_magic_header);
+		if (!dev->underload_packet_magic_header)
+			goto out;
+
 		dev->flags |= WGDEVICE_HAS_H3;
 	}
 
 	if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_H4) {
-		dev->transport_packet_magic_header = wg_iface->i_transport_packet_magic_header;
+		dev->transport_packet_magic_header = strdup(wg_iface->i_transport_packet_magic_header);
+		if (!dev->transport_packet_magic_header)
+			goto out;
+
 		dev->flags |= WGDEVICE_HAS_H4;
 	}
 
 	if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_I1)
 	{
 		dev->i1 = strdup(wg_iface->i_i1);
+		if (!dev->i1)
+			goto out;
+
 		dev->flags |= WGDEVICE_HAS_I1;
 	}
 
 	if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_I2)
 	{
 		dev->i2 = strdup(wg_iface->i_i2);
+		if (!dev->i2)
+			goto out;
+
 		dev->flags |= WGDEVICE_HAS_I2;
 	}
 
 	if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_I3)
 	{
 		dev->i3 = strdup(wg_iface->i_i3);
+		if (!dev->i3)
+			goto out;
+
 		dev->flags |= WGDEVICE_HAS_I3;
 	}
 
 	if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_I4)
 	{
 		dev->i4 = strdup(wg_iface->i_i4);
+		if (!dev->i4)
+			goto out;
+
 		dev->flags |= WGDEVICE_HAS_I4;
 	}
 
 	if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_I5)
 	{
 		dev->i5 = strdup(wg_iface->i_i5);
+		if (!dev->i5)
+			goto out;
+
 		dev->flags |= WGDEVICE_HAS_I5;
-	}
-
-	if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_J1)
-	{
-		dev->j1 = strdup(wg_iface->i_j1);
-		dev->flags |= WGDEVICE_HAS_J1;
-	}
-
-	if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_J2)
-	{
-		dev->j2 = strdup(wg_iface->i_j2);
-		dev->flags |= WGDEVICE_HAS_J2;
-	}
-
-	if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_J3)
-	{
-		dev->j3 = strdup(wg_iface->i_j3);
-		dev->flags |= WGDEVICE_HAS_J3;
-	}
-
-	if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_ITIME)
-	{
-		dev->itime = wg_iface->i_itime;
-		dev->flags |= WGDEVICE_HAS_ITIME;
 	}
 
 	wg_peer = &wg_iface->i_peers[0];
@@ -367,77 +370,80 @@ static int kernel_set_device(struct wgdevice *dev)
 	}
 
 	if (dev->flags & WGDEVICE_HAS_H1) {
-		wg_iface->i_init_packet_magic_header = dev->init_packet_magic_header;
+		wg_iface->i_init_packet_magic_header = strdup(dev->init_packet_magic_header);
+		if (!wg_iface->i_init_packet_magic_header)
+			goto out;
+
 		wg_iface->i_flags |= WG_INTERFACE_DEVICE_HAS_H1;
 	}
 
 	if (dev->flags & WGDEVICE_HAS_H2) {
-		wg_iface->i_response_packet_magic_header = dev->response_packet_magic_header;
+		wg_iface->i_response_packet_magic_header = strdup(dev->response_packet_magic_header);
+		if (!wg_iface->i_response_packet_magic_header)
+			goto out;
+
 		wg_iface->i_flags |= WG_INTERFACE_DEVICE_HAS_H2;
 	}
 
 	if (dev->flags & WGDEVICE_HAS_H3) {
-		wg_iface->i_underload_packet_magic_header = dev->underload_packet_magic_header;
+		wg_iface->i_underload_packet_magic_header = strdup(dev->underload_packet_magic_header);
+		if (!wg_iface->i_underload_packet_magic_header)
+			goto out;
+
 		wg_iface->i_flags |= WG_INTERFACE_DEVICE_HAS_H3;
 	}
 
 	if (dev->flags & WGDEVICE_HAS_H4) {
-		wg_iface->i_transport_packet_magic_header = dev->transport_packet_magic_header;
+		wg_iface->i_transport_packet_magic_header = strdup(dev->transport_packet_magic_header);
+		if (!wg_iface->i_transport_packet_magic_header)
+			goto out;
+
 		wg_iface->i_flags |= WG_INTERFACE_DEVICE_HAS_H4;
 	}
 
 	if (dev->flags & WGDEVICE_HAS_I1)
 	{
 		wg_iface->i_i1 = strdup(dev->i1);
+		if (!wg_iface->i_i1)
+			goto out;
+
 		wg_iface->i_flags |= WG_INTERFACE_DEVICE_HAS_I1;
 	}
 
 	if (dev->flags & WGDEVICE_HAS_I2)
 	{
 		wg_iface->i_i2 = strdup(dev->i2);
+		if (!wg_iface->i_i2)
+			goto out;
+
 		wg_iface->i_flags |= WG_INTERFACE_DEVICE_HAS_I2;
 	}
 
 	if (dev->flags & WGDEVICE_HAS_I3)
 	{
 		wg_iface->i_i3 = strdup(dev->i3);
+		if (!wg_iface->i_i3)
+			goto out;
+
 		wg_iface->i_flags |= WG_INTERFACE_DEVICE_HAS_I3;
 	}
 
 	if (dev->flags & WGDEVICE_HAS_I4)
 	{
 		wg_iface->i_i4 = strdup(dev->i4);
+		if (!wg_iface->i_i4)
+			goto out;
+
 		wg_iface->i_flags |= WG_INTERFACE_DEVICE_HAS_I4;
 	}
 
 	if (dev->flags & WGDEVICE_HAS_I5)
 	{
 		wg_iface->i_i5 = strdup(dev->i5);
+		if (!wg_iface->i_i5)
+			goto out;
+
 		wg_iface->i_flags |= WG_INTERFACE_DEVICE_HAS_I5;
-	}
-
-	if (dev->flags & WGDEVICE_HAS_J1)
-	{
-		wg_iface->i_j1 = strdup(dev->j1);
-		wg_iface->i_flags |= WG_INTERFACE_DEVICE_HAS_J1;
-	}
-
-	if (dev->flags & WGDEVICE_HAS_J2)
-	{
-		wg_iface->i_j2 = strdup(dev->j2);
-		wg_iface->i_flags |= WG_INTERFACE_DEVICE_HAS_J2;
-	}
-
-	if (dev->flags & WGDEVICE_HAS_J3)
-	{
-		wg_iface->i_j3 = strdup(dev->j3);
-		wg_iface->i_flags |= WG_INTERFACE_DEVICE_HAS_J3;
-	}
-
-	if (dev->flags & WGDEVICE_HAS_ITIME)
-	{
-		wg_iface->i_itime = dev->itime;
-		wg_iface->i_flags |= WG_INTERFACE_DEVICE_HAS_ITIME;
 	}
 
 	peer_count = 0;
@@ -495,6 +501,26 @@ static int kernel_set_device(struct wgdevice *dev)
 
 out:
 	ret = -errno;
+	if (wg_iface) {
+		if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_H1)
+			free(wg_iface->i_init_packet_magic_header);
+		if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_H2)
+			free(wg_iface->i_response_packet_magic_header);
+		if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_H3)
+			free(wg_iface->i_underload_packet_magic_header);
+		if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_H4)
+			free(wg_iface->i_transport_packet_magic_header);
+		if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_I1)
+			free(wg_iface->i_i1);
+		if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_I2)
+			free(wg_iface->i_i2);
+		if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_I3)
+			free(wg_iface->i_i3);
+		if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_I4)
+			free(wg_iface->i_i4);
+		if (wg_iface->i_flags & WG_INTERFACE_DEVICE_HAS_I5)
+			free(wg_iface->i_i5);
+	}
 	free(wgdata.wgd_interface);
 	return ret;
 }

@@ -61,13 +61,13 @@ int showconf_main(int argc, const char *argv[])
 	if (device->flags & WGDEVICE_HAS_S4)
 		printf("S4 = %u\n", device->transport_packet_junk_size);
 	if (device->flags & WGDEVICE_HAS_H1)
-		printf("H1 = %u\n", device->init_packet_magic_header);
+		printf("H1 = %s\n", device->init_packet_magic_header);
 	if (device->flags & WGDEVICE_HAS_H2)
-		printf("H2 = %u\n", device->response_packet_magic_header);
+		printf("H2 = %s\n", device->response_packet_magic_header);
 	if (device->flags & WGDEVICE_HAS_H3)
-		printf("H3 = %u\n", device->underload_packet_magic_header);
+		printf("H3 = %s\n", device->underload_packet_magic_header);
 	if (device->flags & WGDEVICE_HAS_H4)
-		printf("H4 = %u\n", device->transport_packet_magic_header);
+		printf("H4 = %s\n", device->transport_packet_magic_header);
 	if (device->flags & WGDEVICE_HAS_I1)
 		printf("I1 = %s\n", device->i1);
 	if (device->flags & WGDEVICE_HAS_I2)
@@ -78,14 +78,6 @@ int showconf_main(int argc, const char *argv[])
 		printf("I4 = %s\n", device->i4);
 	if (device->flags & WGDEVICE_HAS_I5)
 		printf("I5 = %s\n", device->i5);
-	if (device->flags & WGDEVICE_HAS_J1)
-		printf("J1 = %s\n", device->j1);
-	if (device->flags & WGDEVICE_HAS_J2)
-		printf("J2 = %s\n", device->j2);
-	if (device->flags & WGDEVICE_HAS_J3)
-		printf("J3 = %s\n", device->j3);
-	if (device->flags & WGDEVICE_HAS_ITIME)
-		printf("Itime = %u\n", device->itime);
 
 	printf("\n");
 	for_each_wgpeer(device, peer) {
@@ -95,11 +87,8 @@ int showconf_main(int argc, const char *argv[])
 			key_to_base64(base64, peer->preshared_key);
 			printf("PresharedKey = %s\n", base64);
 		}
-		if (peer->flags & WGPEER_HAS_ADVANCED_SECURITY) {
-			printf("AdvancedSecurity = %s\n", peer->advanced_security ? "on" : "off");
-		}
-		if (peer->flags & WGPEER_HAS_SPECIAL_HANDSHAKE) {
-			printf("SpecialHandshake = %s\n", peer->special_handshake ? "on" : "off");
+		if (peer->flags & WGPEER_HAS_AWG) {
+			printf("AdvancedSecurity = %s\n", peer->awg ? "on" : "off");
 		}
 		if (peer->first_allowedip)
 			printf("AllowedIPs = ");
