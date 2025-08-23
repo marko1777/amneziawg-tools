@@ -25,9 +25,9 @@
 
 #define IPC_SUPPORTS_KERNEL_INTERFACE
 
-void put_magic_header_attr(struct nlmsghdr *nlh, int attr_name, char *header_field)
+void put_magic_header_attr(uint8_t version, struct nlmsghdr *nlh, int attr_name, char *header_field)
 {
-	if (contains_hyphen(header_field)) {
+	if (version >= 2) {
 		mnl_attr_put_strz(nlh, attr_name, header_field);
 	} else {
 		uint32_t magic_header = strtoul(header_field, NULL, 10);
@@ -177,7 +177,7 @@ static int kernel_set_device(struct wgdevice *dev)
 	struct nlmsghdr *nlh;
 	struct mnlg_socket *nlg;
 
-	nlg = mnlg_socket_open(WG_GENL_NAME, WG_GENL_VERSION);
+	nlg = mnlg_socket_open(WG_GENL_NAME);
 	if (!nlg)
 		return -errno;
 
@@ -207,13 +207,13 @@ again:
 		if (dev->flags & WGDEVICE_HAS_S4)
 			mnl_attr_put_u16(nlh, WGDEVICE_A_S4, dev->transport_packet_junk_size);
 		if (dev->flags & WGDEVICE_HAS_H1)
-			put_magic_header_attr(nlh, WGDEVICE_A_H1, dev->init_packet_magic_header);
+			put_magic_header_attr(nlg->version, nlh, WGDEVICE_A_H1, dev->init_packet_magic_header);
 		if (dev->flags & WGDEVICE_HAS_H2)
-			put_magic_header_attr(nlh, WGDEVICE_A_H2, dev->response_packet_magic_header);
+			put_magic_header_attr(nlg->version, nlh, WGDEVICE_A_H2, dev->response_packet_magic_header);
 		if (dev->flags & WGDEVICE_HAS_H3)
-			put_magic_header_attr(nlh, WGDEVICE_A_H3, dev->underload_packet_magic_header);
+			put_magic_header_attr(nlg->version, nlh, WGDEVICE_A_H3, dev->underload_packet_magic_header);
 		if (dev->flags & WGDEVICE_HAS_H4)
-			put_magic_header_attr(nlh, WGDEVICE_A_H4, dev->transport_packet_magic_header);
+			put_magic_header_attr(nlg->version, nlh, WGDEVICE_A_H4, dev->transport_packet_magic_header);
 		if (dev->flags & WGDEVICE_HAS_I1)
 			mnl_attr_put_strz(nlh, WGDEVICE_A_I1, dev->i1);
 		if (dev->flags & WGDEVICE_HAS_I2)
@@ -685,7 +685,7 @@ try_again:
 	if (!*device)
 		return -errno;
 
-	nlg = mnlg_socket_open(WG_GENL_NAME, WG_GENL_VERSION);
+	nlg = mnlg_socket_open(WG_GENL_NAME);
 	if (!nlg) {
 		free_wgdevice(*device);
 		*device = NULL;
