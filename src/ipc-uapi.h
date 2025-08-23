@@ -25,17 +25,6 @@
 #include "ipc-uapi-unix.h"
 #endif
 
-
-static void set_magic_header(FILE *f, const char* prefix, const char *header_field)
-{
-	if (contains_hyphen(header_field))
-		fprintf(f, "%s=%s\n", prefix, header_field);
-	else {
-		uint32_t magic_header = strtoul(header_field, NULL, 10);
-		fprintf(f, "%s=%u\n", prefix, magic_header);
-	}
-}
-
 static int userspace_set_device(struct wgdevice *dev)
 {
 	char hex[WG_KEY_LEN_HEX], ip[INET6_ADDRSTRLEN], host[4096 + 1], service[512 + 1];
@@ -77,13 +66,13 @@ static int userspace_set_device(struct wgdevice *dev)
 	if (dev->flags & WGDEVICE_HAS_S4)
 		fprintf(f, "s4=%u\n", dev->transport_packet_junk_size);
 	if (dev->flags & WGDEVICE_HAS_H1)
-		set_magic_header(f, "h1", dev->init_packet_magic_header);
+		fprintf(f, "h1=%s\n", dev->init_packet_magic_header);
 	if (dev->flags & WGDEVICE_HAS_H2)
-		set_magic_header(f, "h2", dev->response_packet_magic_header);
+		fprintf(f, "h2=%s\n", dev->response_packet_magic_header);
 	if (dev->flags & WGDEVICE_HAS_H3)
-		set_magic_header(f, "h3", dev->underload_packet_magic_header);
+		fprintf(f, "h3=%s\n", dev->underload_packet_magic_header);
 	if (dev->flags & WGDEVICE_HAS_H4)
-		set_magic_header(f, "h4", dev->transport_packet_magic_header);
+		fprintf(f, "h4=%s\n", dev->transport_packet_magic_header);
 
 	if (dev->flags & WGDEVICE_HAS_I1)
 		fprintf(f, "i1=%s\n", dev->i1);

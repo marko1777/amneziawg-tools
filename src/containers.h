@@ -157,12 +157,4 @@ static inline void free_wgdevice(struct wgdevice *dev)
 	free(dev);
 }
 
-static inline int contains_hyphen(const char *str)
-{
-	if (strchr(str, '-') != NULL)
-		return 1;
-
-	return 0;
-}
-
 #endif
